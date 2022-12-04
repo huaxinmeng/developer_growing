@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Project\\2023\\源码\\span_demo\\demo\\demo\\demo.csproj": {}
+    "D:\\Project\\2023\\源码\\span_demo\\demo\\developer_growing\\demo\\demo.csproj": {}
   },
   "projects": {
-    "D:\\Project\\2023\\源码\\span_demo\\demo\\demo\\demo.csproj": {
+    "D:\\Project\\2023\\源码\\span_demo\\demo\\developer_growing\\demo\\demo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Project\\2023\\源码\\span_demo\\demo\\demo\\demo.csproj",
+        "projectUniqueName": "D:\\Project\\2023\\源码\\span_demo\\demo\\developer_growing\\demo\\demo.csproj",
         "projectName": "demo",
-        "projectPath": "D:\\Project\\2023\\源码\\span_demo\\demo\\demo\\demo.csproj",
+        "projectPath": "D:\\Project\\2023\\源码\\span_demo\\demo\\developer_growing\\demo\\demo.csproj",
         "packagesPath": "C:\\Users\\83562\\.nuget\\packages\\",
-        "outputPath": "D:\\Project\\2023\\源码\\span_demo\\demo\\demo\\obj\\",
+        "outputPath": "D:\\Project\\2023\\源码\\span_demo\\demo\\developer_growing\\demo\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
@@ -54,12 +54,18 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[3.1.22, 3.1.22]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

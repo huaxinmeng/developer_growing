@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "xNNjVDTBGuGIF8synHqCtqEtvHyofUXNs3MtwQTofzziyWaFxYOHg/2fvoSYZzOs9Y2qLU3nx/R9hITDP0RHtA==",
+  "dgSpecHash": "B1iGE4rKeQs0ft7IJU9lfWDX39s9rKcF5YoI1DJAfePj26bGZEla7iQpZn6EQhplUObKpMvywVgv7JCoXoUE9A==",
   "success": true,
-  "projectFilePath": "D:\\Project\\2023\\源码\\span_demo\\demo\\demo\\demo.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "D:\\Project\\2023\\源码\\span_demo\\demo\\developer_growing\\demo\\demo.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\83562\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.22\\microsoft.netcore.app.host.win-x64.3.1.22.nupkg.sha512"
+  ],
   "logs": []
 }
