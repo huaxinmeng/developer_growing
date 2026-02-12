@@ -1,0 +1,29 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+		xmlns:prism="http://prismlibrary.com/"
+        prism:ViewModelLocator.AutoWireViewModel="True"
+        x:Class="avalonia.samples.library.PageMainWindow"
+        Title="PageMain">
+	<Window.Background>
+		<ImageBrush Stretch="Fill"  Source="resm:avalonia.samples.library.Assets.background.png?assembly=avalonia.samples.library"></ImageBrush>
+	</Window.Background>
+	<Grid>
+		<!--<Image Cursor="Hand" Width="120" KeyDown="" Source="resm:avalonia.samples.library.Assets.a_login.png?assembly=avalonia.samples.library"></Image>-->
+		<StackPanel Orientation="Horizontal" Margin="5" >
+			<Button Command="{Binding NavigateCommand}" CommandParameter="TabSample" Width="120" Height="90">
+				<Button.Background>
+					<ImageBrush Stretch="Fill" Source="resm:avalonia.samples.library.Assets.a_login.png?assembly=avalonia.samples.library"></ImageBrush>
+				</Button.Background>
+			</Button>
+			<Button Command="{Binding NavigateCommand}" CommandParameter="ViewB" Width="120" Height="90">
+				<Button.Background>
+					<ImageBrush Stretch="Fill" Source="resm:avalonia.samples.library.Assets.h_login.png?assembly=avalonia.samples.library"></ImageBrush>
+				</Button.Background>
+			</Button>
+		</StackPanel>
+
+	</Grid>
+</Window>

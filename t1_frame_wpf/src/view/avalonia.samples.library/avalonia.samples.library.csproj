@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <!--<TargetFramework>net6.0</TargetFramework>-->
+	  <Nullable>enable</Nullable>
+	  <!--<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+	  <ApplicationManifest>app.manifest</ApplicationManifest>-->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\a_login.png" />
+    <None Remove="Assets\background.png" />
+    <None Remove="Assets\h_login.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\a_login.png" />
+    <EmbeddedResource Include="Assets\background.png" />
+    <EmbeddedResource Include="Assets\h_login.png" />
+  </ItemGroup>
+	<!--<ItemGroup>
+		<TrimmerRootDescriptor Include="Roots.xml" />
+	</ItemGroup>-->
+	<!--<ItemGroup>
+		<PackageReference Include="Avalonia" Version="0.10.18" />
+		<PackageReference Include="Avalonia.Desktop" Version="0.10.18" />
+		--><!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.--><!--
+		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.18" />
+		<PackageReference Include="Prism.Avalonia" Version="8.1.97.1" />
+		<PackageReference Include="Prism.DryIoc.Avalonia" Version="8.1.97.1" />
+		<PackageReference Include="XamlNameReferenceGenerator" Version="1.5.1" />
+	</ItemGroup>-->
+	<ItemGroup>
+	  <ProjectReference Include="..\..\common\avalonia.model\avalonia.model.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Compile Update="PageHome\PageMainWindow.axaml.cs">
+	    <DependentUpon>PageMainWindow.axaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+	<Import Project="..\..\..\build\avalonia.app.props" />
+	<ItemGroup>
+	  <UpToDateCheckInput Remove="PageHome\MainSample.axaml" />
+	</ItemGroup>
+</Project>
