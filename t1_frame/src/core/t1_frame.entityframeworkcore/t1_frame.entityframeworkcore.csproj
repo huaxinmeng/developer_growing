@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
+	  <PackageReference Include="Abp.AspNetCore" Version="9.4.1" />
+	  <PackageReference Include="Abp.EntityFrameworkCore" Version="9.4.1" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.8" />
+	  <PackageReference Include="Abp.Dapper" Version="9.4.1" />
+	  <!--<PackageReference Include="Abp.EntityFrameworkCore.Configuration" Version="9.4.1" />-->
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\t1_frame.domain\t1_frame.domain.csproj" />
+  </ItemGroup>
+
+</Project>

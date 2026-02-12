@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+	<ItemGroup>
+		<!--<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />-->
+		<PackageReference Include="Abp.AspNetCore" Version="9.4.1" />
+		<PackageReference Include="Abp.EntityFrameworkCore" Version="9.4.1" />
+		<!--<PackageReference Include="Abp.EntityFrameworkCore.Configuration" Version="9.4.1" />-->
+	</ItemGroup>
+</Project>

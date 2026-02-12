@@ -1,0 +1,6 @@
+@t1_frame.simple_HostAddress = http://localhost:5115
+
+GET {{t1_frame.simple_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

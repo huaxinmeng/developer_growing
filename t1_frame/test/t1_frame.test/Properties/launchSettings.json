@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "t1_frame.test": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:64681;http://localhost:64682"
+    }
+  }
+}

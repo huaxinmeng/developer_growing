@@ -1,0 +1,55 @@
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ import namespace="MySql.Data.MySqlClient" #>
+
+<#@ include file="$(SolutionDir)src\common\t1_frame.t4_template\T4\MultipleOutputHelper.ttinclude"#> 
+<#@ include file="$(SolutionDir)src\common\t1_frame.t4_template\T4\EntityHelper.ttinclude" #>
+<#@ include file="$(SolutionDir)src\common\t1_frame.t4_template\Configuration.ttinclude" #>
+<#		
+	    //*配置信息（须手工修复）
+
+        var databases = new List<string> { config.DbDatabase };
+		var entities = EntityHelper.GetEntities(config.ConnectionString,databases);
+		var manager = Manager.Create(Host, GenerationEnvironment);
+
+		foreach(Entity entity in entities)
+		{	
+			string entityName = entity.EntityName;	
+			string file =  StringUtils.GetEntityName(entity.EntityName);
+			manager.StartNewFile(file+"Entity.cs");#>
+//------------------------------------------------------------------------------
+// 警告:
+//     该代码由T4工具根据模板自动生成,直接在该代码上进行任何修改都将在重新生成后丢失!
+//     如有需要应使用partial class或是继承该类进行自定义扩展。
+//------------------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+using t1_frame.common;
+using System.Runtime.Serialization;
+
+namespace <#= config.NameSpaceEntity #>
+{	
+	/// <summary>
+	/// 实体-<#=entity.EntityName#> 
+	/// </summary>
+	[Table("<#=entity.TableName#>")]
+	public partial class <#=file#>Entity : BaseEntity    
+	{	
+<#foreach (Field dc in entity.Fields) { string fileName = dc.Name; #>
+		/// <summary>  
+        /// <#= dc.Comment #>  
+        /// </summary>
+<# if(dc.IsPrimaryKey) {WriteLine(string.Format("		[Field(IsPrimaryKey = {0}, IsIdentity = {1})]",dc.IsPrimaryKey.ToString().ToLowerInvariant(),dc.IsIdentity.ToString().ToLowerInvariant()));}// else { WriteLine(string.Format("		[Field(\"{0}\")]",dc.Name)); }
+#>
+		
+		public <#= dc.Type#> <#= fileName#> { get; set; }  
+<#}#>
+		
+	}
+}
+	
+<#
+		manager.EndBlock();    
+         }            
+       manager.Process(true);  
+#>
+

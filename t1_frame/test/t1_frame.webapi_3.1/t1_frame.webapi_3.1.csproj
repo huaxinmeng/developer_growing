@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>t1_frame.webapi_3._1</RootNamespace>
+  </PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Hangfire.Core" Version="1.8.14" />
+		<PackageReference Include="Hangfire.SqlServer" Version="1.8.14" />
+		<PackageReference Include="Hangfire.AspNetCore" Version="1.8.14" />
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="*" />
+		<PackageReference Include="Quartz.AspNetCore" Version="3.9.0" />
+		
+	</ItemGroup>
+
+</Project>

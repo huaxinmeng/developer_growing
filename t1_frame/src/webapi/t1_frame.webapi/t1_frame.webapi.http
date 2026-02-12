@@ -1,0 +1,5 @@
+﻿@host = http://localhost:5157
+
+GET {{host}}/api/home/GetStr?name=string
+
+###
