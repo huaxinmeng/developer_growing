@@ -8,14 +8,17 @@ using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Autofac;
+using Volo.Abp.Caching;
+using Volo.Abp.Caching.StackExchangeRedis;
 using Volo.Abp.Modularity;
 
 namespace t1_frame.webapi.abp
 {
     [DependsOn(
     typeof(AbpAutofacModule),
-    // typeof(AbpAspNetCoreSerilogModule),
-    typeof(AbpAspNetCoreMvcModule),
+        //typeof(AbpAspNetCoreSerilogModule),
+        typeof(AbpAspNetCoreMvcModule),
+        typeof(AbpCachingStackExchangeRedisModule),
         typeof(HostApplicationModule),
         typeof(HostEntityFrameworkModule))]
     public class HostWebHostModule : AbpModule
@@ -23,6 +26,16 @@ namespace t1_frame.webapi.abp
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             // context.Services.AddControllers();
+            var appConfiguration = context.Services.GetConfiguration();
+            var mark = appConfiguration.GetValue<bool>("Redis:IsEnabled", false);
+            if (mark)
+            {
+                context.Services.AddStackExchangeRedisCache(options =>
+                {
+                    options.Configuration = appConfiguration.GetValue("Redis:Configuration", "");
+                });
+            }
+
             ConfigureSwagger(context.Services);
         }
 
