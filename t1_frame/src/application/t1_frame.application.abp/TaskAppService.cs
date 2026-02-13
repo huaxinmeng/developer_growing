@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using t1_frame.entityframeworkcore.abp;
+using t1_frame.response.abp;
+using t1_frame.response.abp.Dto;
 using Volo.Abp;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Caching;
@@ -43,20 +45,23 @@ namespace t1_frame.application.abp
         }
 
         [UnitOfWork(isTransactional: false)]
-        public async virtual Task<Message?> AddMessage(MessageInput input)
+        public async virtual Task<MessageDto?> AddMessage(MessageInput input)
         {
-            await _messageRepository.InsertAsync(new Message
-            {
-                Tag = input.Tag,
-                Reply = input.Reply?.Select(t => new MessageReply
-                {
-                    UserId = t.UserId,
-                    Name = t.Name,
-                    Avatar = t.Avatar,
-                    Content = t.Content,
-                    // CreatedAt = DateTime.Now
-                }).ToList()
-            });
+            var result = ObjectMapper.Map<MessageInput, Message>(input);
+            await _messageRepository.InsertAsync(result);
+
+            //await _messageRepository.InsertAsync(new Message
+            //{
+            //    Tag = input.Tag,
+            //    Reply = input.Reply?.Select(t => new MessageReply
+            //    {
+            //        UserId = t.UserId,
+            //        Name = t.Name,
+            //        Avatar = t.Avatar,
+            //        Content = t.Content,
+            //        // CreatedAt = DateTime.Now
+            //    }).ToList()
+            //});
 
             var enity = await _messageRepository.GetLastEntity();
             if(enity != null)
@@ -64,7 +69,7 @@ namespace t1_frame.application.abp
                 await _cache.SetAsync("messageId", enity.Id.ToString());
             }
 
-            return enity;
+            return ObjectMapper.Map<Message, MessageDto>(enity);
         }
 
         public async Task<string?> GetMessage(string id)

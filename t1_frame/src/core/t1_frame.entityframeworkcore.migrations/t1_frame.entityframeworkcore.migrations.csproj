@@ -10,8 +10,10 @@
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
 		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
+		<!--<PackageReference Include="Abp.AspNetCore" Version="9.4.1" />-->
+		<PackageReference Include="Volo.Abp.AuditLogging.EntityFrameworkCore" Version="8.3.4" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\t1_frame.domain\t1_frame.domain.csproj" />

@@ -7,10 +7,10 @@
   </PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="8.3.4" />
-		<PackageReference Include="Volo.Abp.Caching.StackExchangeRedis" Version="8.3.4" />
+		<PackageReference Include="Volo.Abp.FluentValidation" Version="8.3.4" />
+		<PackageReference Include="Volo.Abp.AutoMapper" Version="8.3.4" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\common\t1_frame.response.abp\t1_frame.response.abp.csproj" />
 	  <ProjectReference Include="..\..\core\t1_frame.entityframeworkcore.abp\t1_frame.entityframeworkcore.abp.csproj" />
 	</ItemGroup>
 </Project>

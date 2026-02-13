@@ -7,6 +7,7 @@ using t1_frame.entityframeworkcore.abp;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Serilog;
+using Volo.Abp.Auditing;
 using Volo.Abp.Autofac;
 using Volo.Abp.Caching;
 using Volo.Abp.Caching.StackExchangeRedis;
@@ -36,6 +37,11 @@ namespace t1_frame.webapi.abp
                 });
             }
 
+            //Configure<AbpAuditingOptions>(options =>
+            //{
+            //    options.EntityHistorySelectors.AddAllEntities();
+            //});
+
             ConfigureSwagger(context.Services);
         }
 
@@ -58,6 +64,7 @@ namespace t1_frame.webapi.abp
             //    endpoints.MapControllers();
             //});
 
+            app.UseAuditing();
             app.UseConfiguredEndpoints();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint

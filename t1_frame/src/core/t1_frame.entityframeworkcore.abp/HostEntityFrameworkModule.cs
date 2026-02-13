@@ -7,6 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp;
+using Volo.Abp.AspNetCore.Auditing;
+using Volo.Abp.Auditing;
+using Volo.Abp.AuditLogging;
+using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.MongoDB;
 using Volo.Abp.Data;
 using Volo.Abp.Domain.Repositories.MongoDB;
@@ -18,13 +22,25 @@ using Volo.Abp.Uow;
 namespace t1_frame.entityframeworkcore.abp
 {
     [DependsOn(typeof(AbpEntityFrameworkCoreModule),
-        typeof(AbpAuditLoggingMongoDbModule)//,
-        // typeof(AbpMongoDbModule)
+        // typeof(AbpAuditLoggingMongoDbModule)//,
+        typeof(AbpMongoDbModule),
+       typeof(AbpAuditLoggingEntityFrameworkCoreModule)
         )]
     public class HostEntityFrameworkModule : AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
+            Configure<AbpAuditingOptions>(options =>
+            {
+                options.EntityHistorySelectors.AddAllEntities();
+            });
+
+            //Configure<AbpAspNetCoreAuditingOptions AbpAuditLoggingOptions>(options =>
+            //{
+            //    // 明确告诉 ABP：审计日志应该使用 T1FrameAbpDbContext 来存储
+            //    options.EntityHistoryStoreDbContextType = typeof(T1FrameAbpDbContext);
+            //});
+
             context.Services.AddAbpDbContext<T1FrameAbpDbContext>(options =>
             {
                 options.AddDefaultRepositories(includeAllEntities: true);
@@ -41,6 +57,11 @@ namespace t1_frame.entityframeworkcore.abp
                 options.AddRepository<Message, MessageRepository>();
             });
 
+            context.Services.AddAbpDbContext<AbpAuditLoggingDbContext>(options =>
+            {
+                options.AddDefaultRepositories(includeAllEntities: true);
+            });
+
             //Configure<AbpUnitOfWorkDefaultOptions>(options =>
             //{
             //    options.TransactionBehavior = UnitOfWorkTransactionBehavior.Enabled;
@@ -51,6 +72,12 @@ namespace t1_frame.entityframeworkcore.abp
                 options.Databases.Configure("t1_frame", db =>
                 {
                     db.MappedConnections.Add("mongodb");
+                    // db.MappedConnections.Add(AbpAuditLoggingDbProperties.ConnectionStringName);
+                });
+                options.Databases.Configure("t1_frame_mysql", db =>
+                {
+                    db.MappedConnections.Add("Default");
+                    db.MappedConnections.Add(AbpAuditLoggingDbProperties.ConnectionStringName);
                 });
             });
 
@@ -81,6 +108,14 @@ namespace t1_frame.entityframeworkcore.abp
                 //    //options.DbContextOptions.UseInMemoryDatabase("t1_frame");
                 //    opts.DbContextOptions.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 27)));
                 //});
+
+                options.Configure<AbpAuditLoggingDbContext>(opts =>
+                {
+                    var connectionString = appConfiguration.GetConnectionString(AbpAuditLoggingDbProperties.ConnectionStringName);
+                    // 配置默认数据库
+                    //options.DbContextOptions.UseInMemoryDatabase("t1_frame");
+                    opts.DbContextOptions.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+                });
             });
         }
 

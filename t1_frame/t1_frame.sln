@@ -67,9 +67,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "t1_frame.simple", "test\t1_
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "t1_frame.webapi.abp", "src\webapi\t1_frame.webapi.abp\t1_frame.webapi.abp.csproj", "{5C165707-8791-47C6-9102-F74F61205CCA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "t1_frame.application.abp", "src\application\t1_frame.application.abp\t1_frame.application.abp.csproj", "{491ECA6E-9C8A-4C36-A50E-FFF64158A66F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "t1_frame.application.abp", "src\application\t1_frame.application.abp\t1_frame.application.abp.csproj", "{491ECA6E-9C8A-4C36-A50E-FFF64158A66F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "t1_frame.entityframeworkcore.abp", "src\core\t1_frame.entityframeworkcore.abp\t1_frame.entityframeworkcore.abp.csproj", "{E81F0D10-474A-491F-BF13-3CE1E33E4BF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "t1_frame.entityframeworkcore.abp", "src\core\t1_frame.entityframeworkcore.abp\t1_frame.entityframeworkcore.abp.csproj", "{E81F0D10-474A-491F-BF13-3CE1E33E4BF3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "t1_frame.response.abp", "src\common\t1_frame.response.abp\t1_frame.response.abp.csproj", "{7FAAD4C4-61A9-4E8E-B065-13C24D265F9E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -189,6 +191,10 @@ Global
 		{E81F0D10-474A-491F-BF13-3CE1E33E4BF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E81F0D10-474A-491F-BF13-3CE1E33E4BF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E81F0D10-474A-491F-BF13-3CE1E33E4BF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FAAD4C4-61A9-4E8E-B065-13C24D265F9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FAAD4C4-61A9-4E8E-B065-13C24D265F9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FAAD4C4-61A9-4E8E-B065-13C24D265F9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FAAD4C4-61A9-4E8E-B065-13C24D265F9E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -226,6 +232,7 @@ Global
 		{5C165707-8791-47C6-9102-F74F61205CCA} = {74A698E9-8E57-489E-B39D-E26F5AFF54C1}
 		{491ECA6E-9C8A-4C36-A50E-FFF64158A66F} = {FE8E11EE-BE7F-41C6-8211-56E99D83E827}
 		{E81F0D10-474A-491F-BF13-3CE1E33E4BF3} = {D4D9EA6F-DEE9-4D28-9970-F0AD87B37A7B}
+		{7FAAD4C4-61A9-4E8E-B065-13C24D265F9E} = {8CA9A4EC-51AE-4502-A1D8-3CDD3FB87D88}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {45FF2F00-709B-4A8B-93AC-5A41D2DFF3A6}
