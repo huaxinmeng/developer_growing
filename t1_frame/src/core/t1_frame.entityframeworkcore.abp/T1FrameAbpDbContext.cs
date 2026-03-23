@@ -21,6 +21,12 @@ namespace t1_frame.entityframeworkcore.abp
         public DbSet<EntityChange> EntityChanges { get; set; }
         public DbSet<EntityPropertyChange> EntityPropertyChanges { get; set; }
 
+        public DbSet<T1User> T1User { get; set; }
+        public DbSet<T1UserAccount> T1UserAccount { get; set; }
+        public DbSet<T1GoodsStock> T1GoodsStock { get; set; }
+        public DbSet<T1TradeLog> T1TradeLog { get; set; }
+
+
         public T1FrameAbpDbContext(DbContextOptions<T1FrameAbpDbContext> options) : base(options)
         {
         }
@@ -29,6 +35,12 @@ namespace t1_frame.entityframeworkcore.abp
         {
             modelBuilder.Entity<T1ApiBase>().HasKey(b => b.Id);
             modelBuilder.Entity<T1ApiAddress>().HasKey(b => b.Id);
+
+            modelBuilder.Entity<T1User>().HasKey(b => b.Id);
+            modelBuilder.Entity<T1UserAccount>().HasKey(b => b.Id);
+            modelBuilder.Entity<T1GoodsStock>().HasKey(b => b.Id);
+            modelBuilder.Entity<T1TradeLog>().HasKey(b => b.Id);
+
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ConfigureAuditLogging();

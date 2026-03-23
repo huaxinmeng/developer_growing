@@ -17,6 +17,9 @@ namespace t1_frame.response.abp.Mapping
             CreateMap<MessageInput, Message>();
             CreateMap<MessageReplyInput, MessageReply>();
             CreateMap<Message, MessageDto>();
+            CreateMap<UserInput, T1User>();
+            CreateMap<UserAcountInput, T1UserAccount>();
+            CreateMap<GoodsInput, T1GoodsStock>();
             //.IgnoreAuditedObjectProperties();
         }
     }

@@ -20,6 +20,11 @@ namespace t1_frame.entityframeworkcore.migrations
         public DbSet<EntityChange> EntityChanges { get; set; }
         public DbSet<EntityPropertyChange> EntityPropertyChanges { get; set; }
 
+        public DbSet<T1User> T1User {  get; set; }
+        public DbSet<T1UserAccount> T1UserAccount { get; set; }
+        public DbSet<T1GoodsStock> T1GoodsStock {  get; set; }  
+        public DbSet<T1TradeLog> T1TradeLog { get; set; }
+
         public MigrationDbContext(DbContextOptions<MigrationDbContext> options) : base(options)
         {
         }
@@ -33,6 +38,12 @@ namespace t1_frame.entityframeworkcore.migrations
         {
             modelBuilder.Entity<T1ApiBase>().HasKey(b => b.Id);
             modelBuilder.Entity<T1ApiAddress>().HasKey(b => b.Id);
+
+            modelBuilder.Entity<T1User>().HasKey(b => b.Id);
+            modelBuilder.Entity<T1UserAccount>().HasKey(b => b.Id);
+            modelBuilder.Entity<T1GoodsStock>().HasKey(b => b.Id);
+            modelBuilder.Entity<T1TradeLog>().HasKey(b => b.Id);
+
             base.OnModelCreating(modelBuilder);
             modelBuilder.ConfigureAuditLogging();
         }

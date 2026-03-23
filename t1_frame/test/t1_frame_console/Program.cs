@@ -189,20 +189,20 @@ namespace t1_frame_console
             //var _waitHandle = new ManualResetEvent(false); // 一次性释放所有阻塞   内核模式
             // var _waitHandle = new ManualResetEventSlim(false); // 一次性释放所有阻塞  混合模式
             //var _waitHandle = new Semaphore(0, 1); // 一次性释放可选的阻塞  内核模式
-            //var _waitHandle = new SemaphoreSlim(0,1); // 一次性释放可选的阻塞  混合模式
+            var _waitHandle = new SemaphoreSlim(0,1); // 一次性释放可选的阻塞  混合模式
             // var _waitHandle = new Mutex(false, "a"); // 一次性只能释放一个阻塞 (不会自动恢复阻塞)  内核模式
             // var _waitHandle = new CountdownEvent(2);  // 计数多少后一次性释放所有阻塞 混合模式  内部使用了ManualResetEventSlim 适合一条线程等待多条线程的情形
             var lockObj = new object();
             var chanlList = Channel.CreateBounded<string>(10);
-            var _waitHandle = new Barrier(3);
+            //var _waitHandle = new Barrier(3);
             Task.Run(async () =>
             {
                 await Task.CompletedTask;
                 while (true)
                 {
                     await Task.Delay(10000);
-                    _waitHandle.SignalAndWait();
-                    Console.WriteLine($"[task1] {DateTime.Now.ToLocalTime()} : {_waitHandle.ParticipantCount}");
+                    //_waitHandle.SignalAndWait();
+                    //Console.WriteLine($"[task1] {DateTime.Now.ToLocalTime()} : {_waitHandle.ParticipantCount}");
                     ////_waitHandle.WaitOne();
                     ////await _waitHandle.WaitAsync();
                     ////_waitHandle.Wait();//等待多次会有些问题
@@ -227,7 +227,7 @@ namespace t1_frame_console
 
                     ////_waitHandle.ReleaseMutex();
                     //Monitor.Exit(lockObj);
-
+                    _waitHandle.Wait();
                     await DoTask(lockObj, chanlList, "task1");
 
                     await Task.Delay(1000);
@@ -241,8 +241,9 @@ namespace t1_frame_console
                 while (true)
                 {
                     await Task.Delay(10000);
-                    _waitHandle.SignalAndWait();
-                    Console.WriteLine($"[task2] {DateTime.Now.ToLocalTime()} : {_waitHandle.ParticipantCount}");
+                    //_waitHandle.SignalAndWait();
+                    _waitHandle.Wait();
+                    // Console.WriteLine($"[task2] {DateTime.Now.ToLocalTime()} : {_waitHandle.ParticipantCount}");
                     await DoTask(lockObj, chanlList);
 
                     await Task.Delay(1000);
@@ -256,8 +257,8 @@ namespace t1_frame_console
                 while (true)
                 {
                     await Task.Delay(10000);
-                    _waitHandle.SignalAndWait();
-                    Console.WriteLine($"[task3] {DateTime.Now.ToLocalTime()} : {_waitHandle.ParticipantCount}");
+                    //_waitHandle.SignalAndWait();
+                    //Console.WriteLine($"[task3] {DateTime.Now.ToLocalTime()} : {_waitHandle.ParticipantCount}");
                     ////_waitHandle.WaitOne();
                     ////await _waitHandle.WaitAsync();
                     ////_waitHandle.Wait(); //等待多次会有些问题
@@ -283,7 +284,7 @@ namespace t1_frame_console
                     ////_waitHandle.ReleaseMutex();
 
                     //Monitor.Exit(lockObj);
-
+                    _waitHandle.Wait();
                     await DoTask(lockObj, chanlList, "task3");  //存在问题
                     //SyncDoTask(lockObj, chanlList, "task3");
 
@@ -315,7 +316,7 @@ namespace t1_frame_console
                 if(str.ToLower() == "set")
                 {
                     //_waitHandle.Set();
-                    //_waitHandle.Release();
+                    _waitHandle.Release();
                     //_waitHandle.Signal();
                     //Monitor.Pulse(lockObj);
                     continue;
