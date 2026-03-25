@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StackExchange.Redis;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 using t1_frame.entityframeworkcore.abp;
 using t1_frame.response.abp;
 using Volo.Abp.Application.Services;
+using Volo.Abp.Caching;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.ObjectMapping;
 
@@ -15,11 +17,17 @@ namespace t1_frame.application.abp
     {
         private readonly IRepository<T1User, long> _repository;
         private readonly IRepository<T1UserAccount, long> _accountRepository;
+        private readonly IDistributedCache<string> _cache;
+        private readonly IDatabase _db;
         public UserAppService(IRepository<T1User, long> repository,
-            IRepository<T1UserAccount, long> accountRepository)
+            IRepository<T1UserAccount, long> accountRepository,
+            IDistributedCache<string> cache,
+            IConnectionMultiplexer redis)
         {
             _repository = repository;
             _accountRepository = accountRepository;
+            _cache = cache;
+            _db = redis.GetDatabase();
         }
 
         public async virtual Task<bool> AddUser(UserInput input)
@@ -43,13 +51,16 @@ namespace t1_frame.application.abp
             if(account == null)
             {
                 var result = ObjectMapper.Map<UserAcountInput, T1UserAccount>(input);
+                result.user_id = user.Id;
                 await _accountRepository.InsertAsync(result);
             }
             else
             {
                 account.amount += input.amount;
             }
-            
+
+            //await _cache.SetAsync($"user:{input.user_code}:balance", (account?.amount ?? input.amount).ToString());
+            await _db.StringSetAsync($"user:{input.user_code}:balance", (account?.amount ?? input.amount).ToString());
             return true;
         }
     }

@@ -37,9 +37,19 @@ namespace t1_frame.entityframeworkcore.abp
             modelBuilder.Entity<T1ApiAddress>().HasKey(b => b.Id);
 
             modelBuilder.Entity<T1User>().HasKey(b => b.Id);
-            modelBuilder.Entity<T1UserAccount>().HasKey(b => b.Id);
+            modelBuilder.Entity<T1UserAccount>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                // 配置 decimal：总长度 18，小数位 2（即 DECIMAL(18,2)）
+                entity.Property(e => e.amount)
+                    .HasPrecision(18, 4)  // 精度 18，小数位 2
+                    .IsRequired();
+            });
             modelBuilder.Entity<T1GoodsStock>().HasKey(b => b.Id);
             modelBuilder.Entity<T1TradeLog>().HasKey(b => b.Id);
+
+            modelBuilder.Entity<T1UserAccount>().Property(e => e.version).IsConcurrencyToken();  // EF Core 乐观锁
 
             base.OnModelCreating(modelBuilder);
 

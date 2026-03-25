@@ -11,5 +11,9 @@ namespace t1_frame.application.abp
     public interface ITradeAppService : IApplicationService
     {
         Task<bool> Deduct(DeductInput input);
+
+        Task<bool> DeductWithRedis(DeductInput input);
+
+        Task<bool> DeductWithLua(DeductInput input);
     }
 }

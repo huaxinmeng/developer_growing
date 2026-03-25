@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Builder.Extensions;
 using Microsoft.OpenApi.Models;
+using StackExchange.Redis;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Reflection;
 using t1_frame.application.abp;
 using t1_frame.entityframeworkcore.abp;
 using Volo.Abp;
+using Volo.Abp.AspNetCore.ExceptionHandling;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Auditing;
@@ -31,16 +33,26 @@ namespace t1_frame.webapi.abp
             var mark = appConfiguration.GetValue<bool>("Redis:IsEnabled", false);
             if (mark)
             {
+                var redisConfig = appConfiguration["Redis:Configuration"] ?? "localhost:6379";
                 context.Services.AddStackExchangeRedisCache(options =>
                 {
-                    options.Configuration = appConfiguration.GetValue("Redis:Configuration", "");
+                    options.Configuration = redisConfig;//appConfiguration.GetValue("Redis:Configuration", "");
                 });
+
+                var redisConnection = ConnectionMultiplexer.Connect(redisConfig);
+                context.Services.AddSingleton<IConnectionMultiplexer>(redisConnection);
             }
 
             //Configure<AbpAuditingOptions>(options =>
             //{
             //    options.EntityHistorySelectors.AddAllEntities();
             //});
+
+            Configure<AbpExceptionHandlingOptions>(options =>
+            {
+                options.SendExceptionsDetailsToClients = true;  // 发送详细错误给客户端
+                options.SendStackTraceToClients = true;         // 发送堆栈（仅开发）
+            });
 
             ConfigureSwagger(context.Services);
         }

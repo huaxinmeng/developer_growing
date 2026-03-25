@@ -22,9 +22,9 @@ using Volo.Abp.Uow;
 namespace t1_frame.entityframeworkcore.abp
 {
     [DependsOn(typeof(AbpEntityFrameworkCoreModule),
-        // typeof(AbpAuditLoggingMongoDbModule)//,
-        typeof(AbpMongoDbModule),
-       typeof(AbpAuditLoggingEntityFrameworkCoreModule)
+        typeof(AbpAuditLoggingMongoDbModule),
+        typeof(AbpMongoDbModule)// ,
+       // typeof(AbpAuditLoggingEntityFrameworkCoreModule)
         )]
     public class HostEntityFrameworkModule : AbpModule
     {
@@ -57,10 +57,10 @@ namespace t1_frame.entityframeworkcore.abp
                 options.AddRepository<Message, MessageRepository>();
             });
 
-            context.Services.AddAbpDbContext<AbpAuditLoggingDbContext>(options =>
-            {
-                options.AddDefaultRepositories(includeAllEntities: true);
-            });
+            //context.Services.AddAbpDbContext<AbpAuditLoggingDbContext>(options =>
+            //{
+            //    options.AddDefaultRepositories(includeAllEntities: true);
+            //});
 
             //Configure<AbpUnitOfWorkDefaultOptions>(options =>
             //{
@@ -72,12 +72,12 @@ namespace t1_frame.entityframeworkcore.abp
                 options.Databases.Configure("t1_frame", db =>
                 {
                     db.MappedConnections.Add("mongodb");
-                    // db.MappedConnections.Add(AbpAuditLoggingDbProperties.ConnectionStringName);
+                    db.MappedConnections.Add(AbpAuditLoggingDbProperties.ConnectionStringName);
                 });
                 options.Databases.Configure("t1_frame_mysql", db =>
                 {
                     db.MappedConnections.Add("Default");
-                    db.MappedConnections.Add(AbpAuditLoggingDbProperties.ConnectionStringName);
+                    // db.MappedConnections.Add(AbpAuditLoggingDbProperties.ConnectionStringName);
                 });
             });
 
@@ -109,13 +109,13 @@ namespace t1_frame.entityframeworkcore.abp
                 //    opts.DbContextOptions.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 27)));
                 //});
 
-                options.Configure<AbpAuditLoggingDbContext>(opts =>
-                {
-                    var connectionString = appConfiguration.GetConnectionString(AbpAuditLoggingDbProperties.ConnectionStringName);
-                    // 配置默认数据库
-                    //options.DbContextOptions.UseInMemoryDatabase("t1_frame");
-                    opts.DbContextOptions.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-                });
+                //options.Configure<AbpAuditLoggingDbContext>(opts =>
+                //{
+                //    var connectionString = appConfiguration.GetConnectionString(AbpAuditLoggingDbProperties.ConnectionStringName);
+                //    // 配置默认数据库
+                //    //options.DbContextOptions.UseInMemoryDatabase("t1_frame");
+                //    opts.DbContextOptions.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+                //});
             });
         }
 
