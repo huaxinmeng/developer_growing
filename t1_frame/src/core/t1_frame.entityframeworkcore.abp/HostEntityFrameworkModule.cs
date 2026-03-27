@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,16 +16,21 @@ using Volo.Abp.AuditLogging.MongoDB;
 using Volo.Abp.Data;
 using Volo.Abp.Domain.Repositories.MongoDB;
 using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.DistributedEvents;
+using Volo.Abp.EventBus.Distributed;
+using Volo.Abp.EventBus.RabbitMq;
 using Volo.Abp.Modularity;
 using Volo.Abp.MongoDB;
+using Volo.Abp.MongoDB.DistributedEvents;
 using Volo.Abp.Uow;
 
 namespace t1_frame.entityframeworkcore.abp
 {
     [DependsOn(typeof(AbpEntityFrameworkCoreModule),
         typeof(AbpAuditLoggingMongoDbModule),
-        typeof(AbpMongoDbModule)// ,
+        typeof(AbpMongoDbModule) ,
        // typeof(AbpAuditLoggingEntityFrameworkCoreModule)
+       typeof(AbpEventBusRabbitMqModule)
         )]
     public class HostEntityFrameworkModule : AbpModule
     {
@@ -116,6 +122,24 @@ namespace t1_frame.entityframeworkcore.abp
                 //    //options.DbContextOptions.UseInMemoryDatabase("t1_frame");
                 //    opts.DbContextOptions.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
                 //});
+            });
+
+            Configure<AbpDistributedEventBusOptions>(options =>
+            {
+                // 发件箱
+                options.Outboxes.Configure(config =>
+                {
+                    // mongodb
+                    config.UseMongoDbContext<T1FrameMongoDbContext>();
+                    // config.UseDbContext<T1FrameAbpDbContext>();
+                });
+                // 收件箱
+                options.Inboxes.Configure(config =>
+                {
+                    // mongodb
+                    config.UseMongoDbContext<T1FrameMongoDbContext>();
+                    // config.UseDbContext<T1FrameAbpDbContext>();
+                });
             });
         }
 

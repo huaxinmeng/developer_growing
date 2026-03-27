@@ -11,11 +11,12 @@ namespace t1_frame_rabbitmq_producer
         static async Task Main(string[] args)
         {
             #region rabbitmq
-            var factory = new ConnectionFactory { HostName = "192.168.1.214", UserName = "nick", Password = "123" };
+            var factory = new ConnectionFactory { HostName = "192.168.3.214", UserName = "nick", Password = "123" };
             using var connection = factory.CreateConnection();
             using var channel = connection.CreateModel();
-
-            channel.QueueDeclare(queue: "t1_test",
+            //var routingKey = "rpc_queue";
+            var routingKey = (args.Length > 0) ? args[0] : "t1_test";
+            channel.QueueDeclare(queue: routingKey,
                                  durable: false,
                                  exclusive: false,
                                  autoDelete: false,
@@ -50,18 +51,18 @@ namespace t1_frame_rabbitmq_producer
                 isComplete = false;
                 await Task.Run(() =>
                 {
-                    //var routingKey = (args.Length > 0) ? args[0] : "anonymous.info";
+                    // var routingKey = (args.Length > 0) ? args[0] : "anonymous.info";
                     //var message = (args.Length > 1)
                     //              ? string.Join(" ", args.Skip(1).ToArray())
                     //              : "Hello World!";
-                    var routingKey = "";
+                    // var routingKey = "rpc_queue";
                     var message = str;
                     var body = Encoding.UTF8.GetBytes(message);
                     var properties = channel.CreateBasicProperties();
                     properties.Persistent = true;
 
                     channel.BasicPublish(exchange: string.Empty,
-                                         routingKey: "t1_test",
+                                         routingKey: routingKey,
                                          basicProperties: properties,
                                          body: body);
                     Console.WriteLine($" [x] Sent '{routingKey}':'{message}'");

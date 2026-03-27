@@ -15,5 +15,7 @@ namespace t1_frame.application.abp
         Task<bool> DeductWithRedis(DeductInput input);
 
         Task<bool> DeductWithLua(DeductInput input);
+
+        Task<bool> EventBusTest(GoodsRaceEto input);
     }
 }

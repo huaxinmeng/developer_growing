@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 using Volo.Abp.AuditLogging;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.DistributedEvents;
 
 namespace t1_frame.entityframeworkcore.abp
 {
-    public class T1FrameAbpDbContext : AbpDbContext<T1FrameAbpDbContext>, IAuditLoggingDbContext
+    public class T1FrameAbpDbContext : AbpDbContext<T1FrameAbpDbContext>, IAuditLoggingDbContext, IHasEventOutbox, IHasEventInbox
     {
         public DbSet<T1ApiBase> T1ApiBase { get; set; }
 
@@ -26,6 +27,8 @@ namespace t1_frame.entityframeworkcore.abp
         public DbSet<T1GoodsStock> T1GoodsStock { get; set; }
         public DbSet<T1TradeLog> T1TradeLog { get; set; }
 
+        public DbSet<OutgoingEventRecord> OutgoingEvents { get; set; }
+        public DbSet<IncomingEventRecord> IncomingEvents { get; set; }
 
         public T1FrameAbpDbContext(DbContextOptions<T1FrameAbpDbContext> options) : base(options)
         {
@@ -50,6 +53,9 @@ namespace t1_frame.entityframeworkcore.abp
             modelBuilder.Entity<T1TradeLog>().HasKey(b => b.Id);
 
             modelBuilder.Entity<T1UserAccount>().Property(e => e.version).IsConcurrencyToken();  // EF Core 乐观锁
+
+            modelBuilder.ConfigureEventOutbox();
+            modelBuilder.ConfigureEventInbox();
 
             base.OnModelCreating(modelBuilder);
 

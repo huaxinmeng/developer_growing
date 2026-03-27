@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder.Extensions;
 using Microsoft.OpenApi.Models;
+using RabbitMQ.Client;
 using StackExchange.Redis;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Reflection;
@@ -13,7 +14,10 @@ using Volo.Abp.Auditing;
 using Volo.Abp.Autofac;
 using Volo.Abp.Caching;
 using Volo.Abp.Caching.StackExchangeRedis;
+using Volo.Abp.EventBus.Distributed;
+using Volo.Abp.EventBus.RabbitMq;
 using Volo.Abp.Modularity;
+using Volo.Abp.RabbitMQ;
 
 namespace t1_frame.webapi.abp
 {
@@ -48,10 +52,45 @@ namespace t1_frame.webapi.abp
             //    options.EntityHistorySelectors.AddAllEntities();
             //});
 
-            Configure<AbpExceptionHandlingOptions>(options =>
+            //Configure<AbpExceptionHandlingOptions>(options =>
+            //{
+            //    options.SendExceptionsDetailsToClients = true;  // 发送详细错误给客户端
+            //    options.SendStackTraceToClients = true;         // 发送堆栈（仅开发）
+            //});
+
+            Configure<AbpRabbitMqOptions>(options =>
             {
-                options.SendExceptionsDetailsToClients = true;  // 发送详细错误给客户端
-                options.SendStackTraceToClients = true;         // 发送堆栈（仅开发）
+                options.Connections.Default.UserName = appConfiguration["RabbitMQ:Connections:Default:UserName"] ?? "guest";
+                options.Connections.Default.Password = appConfiguration["RabbitMQ:Connections:Default:Password"] ?? "guest";
+                options.Connections.Default.HostName = appConfiguration["RabbitMQ:Connections:Default:HostName"] ?? "localhost";
+                options.Connections.Default.Port = 5672;
+                options.Connections.Default.ConsumerDispatchConcurrency = 4;
+
+                //options.Connections.Default = new ConnectionFactory
+                //{
+                //    HostName = appConfiguration["RabbitMQ:Connections:Default:HostName"] ?? "localhost",
+                //    UserName = appConfiguration["RabbitMQ:Connections:Default:UserName"] ?? "guest",
+                //    Password = appConfiguration["RabbitMQ:Connections:Default:Password"] ?? "guest",
+                //    Port = 5672,
+                //    // 关键：设置并发消费者数量
+                //    ConsumerDispatchConcurrency = 1  // .NET 6+ RabbitMQ.Client 支持
+                //};
+            });
+
+            //Configure<AbpEventBusBoxesOptions>(options =>
+            //{
+            //    // 禁用 Inbox 清理（避免触发事务操作）
+            //    options.CleanOldEventTimeIntervalSpan = TimeSpan.FromDays(365 * 10);
+            //    options.WaitTimeToDeleteProcessedInboxEvents = TimeSpan.FromDays(365 * 10);
+            //});
+
+            Configure<AbpRabbitMqEventBusOptions>(options =>
+            {
+                options.ClientName = "TestApp1";
+                options.ExchangeName = "TestMessages";
+                options.PrefetchCount = 16;
+                options.ExchangeArguments["x-delayed-type"] = "direct";
+                options.QueueArguments["x-message-ttl"] = 60000;
             });
 
             ConfigureSwagger(context.Services);
