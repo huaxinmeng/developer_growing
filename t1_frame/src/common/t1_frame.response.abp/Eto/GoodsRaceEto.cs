@@ -9,7 +9,7 @@ using Volo.Abp.EventBus;
 
 namespace t1_frame.response.abp
 {
-    [EventName("Goods.StockRace")]
+    // [EventName("Goods.StockRace")]
     public class GoodsRaceEto
     {
         [Required]
@@ -21,5 +21,29 @@ namespace t1_frame.response.abp
         /// 商品库存
         /// </summary>
         public int goods_stock { get; set; }
+    }
+
+    [EventName("Goods.StockRace")]
+    public class GoodsRaceActEto : GoodsRaceEto
+    {
+        public GoodsRaceActEto()
+        {
+
+        }
+
+        public GoodsRaceActEto(GoodsRaceEto eto, string requestId)
+        {
+            user_code = eto.user_code;
+            goods_name = eto.goods_name;
+            goods_stock = eto.goods_stock;
+
+            occur_time = DateTime.UtcNow;
+
+            request_id = requestId;
+        }
+
+        public string request_id {  get; set; }
+
+        public DateTime occur_time { get; set; }
     }
 }

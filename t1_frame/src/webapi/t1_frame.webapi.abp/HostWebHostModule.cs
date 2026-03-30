@@ -49,14 +49,14 @@ namespace t1_frame.webapi.abp
 
             //Configure<AbpAuditingOptions>(options =>
             //{
-            //    options.EntityHistorySelectors.AddAllEntities();
+            //    // options.EntityHistorySelectors.AddAllEntities();
             //});
 
-            //Configure<AbpExceptionHandlingOptions>(options =>
-            //{
-            //    options.SendExceptionsDetailsToClients = true;  // 发送详细错误给客户端
-            //    options.SendStackTraceToClients = true;         // 发送堆栈（仅开发）
-            //});
+            Configure<AbpExceptionHandlingOptions>(options =>
+            {
+                options.SendExceptionsDetailsToClients = true;  // 发送详细错误给客户端
+                // options.SendStackTraceToClients = true;         // 发送堆栈（仅开发）
+            });
 
             Configure<AbpRabbitMqOptions>(options =>
             {
@@ -64,7 +64,7 @@ namespace t1_frame.webapi.abp
                 options.Connections.Default.Password = appConfiguration["RabbitMQ:Connections:Default:Password"] ?? "guest";
                 options.Connections.Default.HostName = appConfiguration["RabbitMQ:Connections:Default:HostName"] ?? "localhost";
                 options.Connections.Default.Port = 5672;
-                options.Connections.Default.ConsumerDispatchConcurrency = 4;
+                options.Connections.Default.ConsumerDispatchConcurrency = 4; // 4
 
                 //options.Connections.Default = new ConnectionFactory
                 //{
@@ -86,11 +86,12 @@ namespace t1_frame.webapi.abp
 
             Configure<AbpRabbitMqEventBusOptions>(options =>
             {
-                options.ClientName = "TestApp1";
-                options.ExchangeName = "TestMessages";
-                options.PrefetchCount = 16;
-                options.ExchangeArguments["x-delayed-type"] = "direct";
-                options.QueueArguments["x-message-ttl"] = 60000;
+                options.ClientName = appConfiguration["RabbitMQ:EventBus:ClientName"] ?? "";//"TestApp2";
+                options.ExchangeName = appConfiguration["RabbitMQ:EventBus:ExchangeName"] ?? "";//"TestMessages";
+                options.PrefetchCount = 16; // 16
+                // options.ExchangeArguments["x-delayed-type"] = "direct";
+                // 消息存活时间（Time-To-Live） 
+                options.QueueArguments["x-message-ttl"] = 60000 * 3;
             });
 
             ConfigureSwagger(context.Services);

@@ -11,39 +11,71 @@ namespace t1_frame_rabbitmq_consumer
         static void Main(string[] args)
         {
             #region  rabbitmq
-            var factory = new ConnectionFactory { HostName = "192.168.1.214", UserName = "nick", Password = "123" };
+            var factory = new ConnectionFactory { HostName = "192.168.3.214", UserName = "nick", Password = "123" };
             using var connection = factory.CreateConnection();
             using var channel = connection.CreateModel();
+            var routingKey = (args.Length > 0) ? args[0] : "t1_test";
+            var exchange = routingKey ?? "topic_logs";
+            //channel.QueueDeclare(queue: routingKey,
+            //                     durable: false,
+            //                     exclusive: false,
+            //                     autoDelete: false,
+            //                     arguments: null);
 
-            channel.QueueDeclare(queue: "rpc_queue",
-                                 durable: false,
-                                 exclusive: false,
-                                 autoDelete: false,
-                                 arguments: null);
-            channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
+            if (args.Length > 1 && args[1] == "fanout")
+            {
+                channel.ExchangeDeclare(exchange: exchange, type: ExchangeType.Fanout);
+            }
+            else if (args.Length > 1 && args[1] == "direct")
+            {
+                channel.ExchangeDeclare(exchange: exchange, type: ExchangeType.Direct);
+            }
+            else if (args.Length > 1 && args[1] == "topic")
+            {
+                channel.ExchangeDeclare(exchange: exchange, type: ExchangeType.Topic);
+            }
+            else if (args.Length > 1 && args[1] == "headers")
+            {
+                channel.ExchangeDeclare(exchange: exchange, type: ExchangeType.Headers);
+            }
+
+            // channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
 
             //channel.ExchangeDeclare(exchange: "topic_logs", type: ExchangeType.Topic);
-            //var queueName = channel.QueueDeclare().QueueName;
-            //if (args.Length < 1)
-            //{
-            //    Console.Error.WriteLine("Usage: {0} [binding_key...]",
-            //                            Environment.GetCommandLineArgs()[0]);
-            //    Console.WriteLine(" Press [enter] to exit.");
-            //    Console.ReadLine();
-            //    Environment.ExitCode = 1;
-            //    return;
-            //}
+            var queueName = channel.QueueDeclare().QueueName;
+            if (args.Length <= 1)
+            {
+                Console.Error.WriteLine("Usage: {0} [binding_key...]",
+                                        Environment.GetCommandLineArgs()[0]);
+                Console.WriteLine(" Press [enter] to exit.");
+                Console.ReadLine();
+                Environment.ExitCode = 1;
+                return;
+            }
 
-            //channel.QueueBind(queue: queueName,
-            //                  exchange: "logs",
-            //                  routingKey: string.Empty);
+            if (args.Length > 1 && args[1] == "fanout")
+            {
+                channel.QueueBind(queue: queueName,
+                                  exchange: exchange,
+                                  routingKey: string.Empty);
+            }
+            else
+            {
+                var index = 0;
+                foreach (var bindingKey in args)
+                {
+                    if (index <= 1)
+                    {
+                        index++;
+                        continue;
+                    }
 
-            //foreach (var bindingKey in args)
-            //{
-            //    channel.QueueBind(queue: queueName,
-            //                      exchange: "topic_logs",
-            //                      routingKey: bindingKey);
-            //}
+                    channel.QueueBind(queue: queueName,
+                                      exchange: exchange,
+                                      routingKey: bindingKey);
+                    index++;
+                }
+            }
 
             Console.WriteLine(" [*] Waiting for messages.");
 
@@ -52,9 +84,9 @@ namespace t1_frame_rabbitmq_consumer
             {
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
-                var routingKey = ea.RoutingKey;
+                // var routingKey = ea.RoutingKey;
 
-                Console.WriteLine($" [x] Received '{routingKey}':'{message}'");
+                Console.WriteLine($" [x] Received '{ea.RoutingKey}':'{message}'");
 
                 int dots = message.Split('.').Length - 1;
                 Thread.Sleep(dots * 1000);
@@ -94,7 +126,9 @@ namespace t1_frame_rabbitmq_consumer
             //channel.BasicConsume(queue: "task_queue",
             //                     autoAck: false,
             //                     consumer: consumer);
-            channel.BasicConsume(queue: "rpc_queue",
+
+            routingKey = queueName;
+            channel.BasicConsume(queue: routingKey,
                      autoAck: false,
                      consumer: consumer);
             #endregion

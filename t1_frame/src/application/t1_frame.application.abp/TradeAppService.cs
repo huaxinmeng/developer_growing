@@ -347,7 +347,7 @@ namespace t1_frame.application.abp
                 //var delayVal = core.abp.RandomHelper.Instance.GetRandomCtl().Next(0, 10);
                 //await DelayHelper.DoWorkWithTimeoutAsync(delay: TimeSpan.FromSeconds(delayVal), timeout: TimeSpan.FromSeconds(20));
                 await _distributedEventBus.PublishAsync(
-                        input
+                        new GoodsRaceActEto(input, lockValue)
                         );
 
                 //await _logRepository.InsertAsync(new T1TradeLog

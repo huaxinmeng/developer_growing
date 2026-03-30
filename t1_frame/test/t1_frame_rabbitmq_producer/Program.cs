@@ -16,12 +16,30 @@ namespace t1_frame_rabbitmq_producer
             using var channel = connection.CreateModel();
             //var routingKey = "rpc_queue";
             var routingKey = (args.Length > 0) ? args[0] : "t1_test";
-            channel.QueueDeclare(queue: routingKey,
-                                 durable: false,
-                                 exclusive: false,
-                                 autoDelete: false,
-                                 arguments: null);
-            //channel.ExchangeDeclare(exchange: "topic_logs", type: ExchangeType.Topic);
+            //channel.QueueDeclare(queue: routingKey,
+            //                     durable: false,
+            //                     exclusive: false,
+            //                     autoDelete: false,
+            //                     arguments: null);
+            // direct, topic, headers and fanout
+            var exchange = routingKey ?? "topic_logs";
+            if (args.Length > 1 && args[1] == "fanout")
+            {
+                channel.ExchangeDeclare(exchange: exchange, type: ExchangeType.Fanout);
+            }
+            else if (args.Length > 1 && args[1] == "direct")
+            {
+                channel.ExchangeDeclare(exchange: exchange, type: ExchangeType.Direct);
+            }
+            else if (args.Length > 1 && args[1] == "topic")
+            {
+                channel.ExchangeDeclare(exchange: exchange, type: ExchangeType.Topic);
+            }
+            else if (args.Length > 1 && args[1] == "headers")
+            {
+                channel.ExchangeDeclare(exchange: exchange, type: ExchangeType.Headers);
+            }
+
 
             //var message = GetMessage(args);
             Console.WriteLine("等待输入...");
@@ -61,10 +79,24 @@ namespace t1_frame_rabbitmq_producer
                     var properties = channel.CreateBasicProperties();
                     properties.Persistent = true;
 
-                    channel.BasicPublish(exchange: string.Empty,
-                                         routingKey: routingKey,
-                                         basicProperties: properties,
-                                         body: body);
+                    //channel.BasicPublish(exchange: string.Empty,
+                    //                     routingKey: routingKey,
+                    //                     basicProperties: properties,
+                    //                     body: body);
+                    if (args.Length > 1 && args[1] == "fanout")
+                    {
+                        routingKey = string.Empty;
+                        properties = null;
+                    }
+                    else if(args.Length > 2)
+                    {
+                        routingKey = args[2];
+                    }
+
+                    channel.BasicPublish(exchange: exchange,
+                             routingKey: routingKey,
+                             basicProperties: properties,
+                             body: body);
                     Console.WriteLine($" [x] Sent '{routingKey}':'{message}'");
                     Console.WriteLine("等待输入...");
                 }).ContinueWith(t => {
