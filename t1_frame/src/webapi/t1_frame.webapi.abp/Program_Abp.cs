@@ -12,6 +12,10 @@
               .ConfigureWebHostDefaults(webBuilder =>
               {
                   webBuilder.UseStartup<Startup>();
+                  //webBuilder.ConfigureKestrel(options =>
+                  //  {
+                  //      options.Limits.MaxConcurrentUpgradedConnections
+                  //  });
               }).UseAutofac();
     }
 }

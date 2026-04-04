@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Builder.Extensions;
+﻿using Confluent.Kafka;
+using Microsoft.AspNetCore.Builder.Extensions;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.OpenApi.Models;
+using MongoDB.Driver;
 using RabbitMQ.Client;
 using StackExchange.Redis;
 using Swashbuckle.AspNetCore.SwaggerUI;
@@ -16,6 +19,7 @@ using Volo.Abp.Caching;
 using Volo.Abp.Caching.StackExchangeRedis;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.EventBus.RabbitMq;
+using Volo.Abp.Kafka;
 using Volo.Abp.Modularity;
 using Volo.Abp.RabbitMQ;
 
@@ -26,8 +30,8 @@ namespace t1_frame.webapi.abp
         //typeof(AbpAspNetCoreSerilogModule),
         typeof(AbpAspNetCoreMvcModule),
         typeof(AbpCachingStackExchangeRedisModule),
-        typeof(HostApplicationModule),
-        typeof(HostEntityFrameworkModule))]
+        typeof(HostEntityFrameworkModule),
+        typeof(HostApplicationModule))]
     public class HostWebHostModule : AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
@@ -92,6 +96,28 @@ namespace t1_frame.webapi.abp
                 // options.ExchangeArguments["x-delayed-type"] = "direct";
                 // 消息存活时间（Time-To-Live） 
                 options.QueueArguments["x-message-ttl"] = 60000 * 3;
+            });
+
+            //context.Services.Replace(ServiceDescriptor.Singleton<IAuditingStore, KafkaAuditingStore>());
+            //context.Services.AddHostedService<AuditLogConsumerService>();
+
+            context.Services.AddSingleton<IMongoClient>(sp =>
+            {
+                var configuration = sp.GetRequiredService<IConfiguration>(); // 从 sp 获取
+                var connectionString = configuration.GetConnectionString("mongodb") ?? "mongodb://localhost:27017";
+                return new MongoClient(connectionString);
+            });
+
+            Configure<AbpKafkaOptions>(options =>
+            {
+                options.Connections.Default.BootstrapServers = appConfiguration["Kafka:Connections:Default:BootstrapServers"] ?? "localhost:9192";
+                // 配置 Consumer
+                options.ConfigureConsumer = config =>
+                {
+                    config.GroupId = appConfiguration["Kafka:EventBus:GroupId"] ?? "test-consumer-group";
+                    config.AutoOffsetReset = AutoOffsetReset.Earliest;
+                    config.EnableAutoCommit = true;
+                };
             });
 
             ConfigureSwagger(context.Services);

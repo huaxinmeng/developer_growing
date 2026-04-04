@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using t1_frame.core.abp;
 using t1_frame.entityframeworkcore.abp;
 using t1_frame.response.abp;
 using Volo.Abp.Application.Services;
@@ -43,6 +44,11 @@ namespace t1_frame.application.abp
                 
             await _db.StringSetAsync($"product:{input.goods_name}:stock", (product?.goods_stock ?? input.goods_stock).ToString());
             return true;
+        }
+
+        public long GetCount()
+        {
+            return CounterHelper.Instance.GetCount();
         }
     }
 }

@@ -11,5 +11,7 @@ namespace t1_frame.application.abp
     public interface IGoodsAppService: IApplicationService
     {
         Task<bool> AddGoods(GoodsInput input);
+
+        long GetCount();
     }
 }

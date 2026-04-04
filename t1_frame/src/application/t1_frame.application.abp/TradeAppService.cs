@@ -270,6 +270,7 @@ namespace t1_frame.application.abp
         // [UnitOfWork(isTransactional: false)]
         public virtual async Task<bool> EventBusTest(GoodsRaceEto input)
         {
+            CounterHelper.Instance.Increment();
             T1User user = null;
             //var user = await _userRepository.FirstOrDefaultAsync(t => t.user_code == input.user_code);
             //if (user == null)

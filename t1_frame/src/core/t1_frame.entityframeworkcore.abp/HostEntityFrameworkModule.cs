@@ -19,6 +19,7 @@ using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.DistributedEvents;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.EventBus.RabbitMq;
+using Volo.Abp.Kafka;
 using Volo.Abp.Modularity;
 using Volo.Abp.MongoDB;
 using Volo.Abp.MongoDB.DistributedEvents;
@@ -30,7 +31,8 @@ namespace t1_frame.entityframeworkcore.abp
         typeof(AbpAuditLoggingMongoDbModule),
         typeof(AbpMongoDbModule) ,
        // typeof(AbpAuditLoggingEntityFrameworkCoreModule)
-       typeof(AbpEventBusRabbitMqModule)
+       typeof(AbpEventBusRabbitMqModule),
+        typeof(AbpKafkaModule)
         )]
     public class HostEntityFrameworkModule : AbpModule
     {

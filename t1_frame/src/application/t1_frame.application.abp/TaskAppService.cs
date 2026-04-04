@@ -49,7 +49,6 @@ namespace t1_frame.application.abp
         {
             var result = ObjectMapper.Map<MessageInput, Message>(input);
             await _messageRepository.InsertAsync(result);
-
             //await _messageRepository.InsertAsync(new Message
             //{
             //    Tag = input.Tag,
