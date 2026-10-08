@@ -159,36 +159,120 @@ namespace t1_frame.task
                 Console.WriteLine($"异常输出1：{string.Join(',', str)}");
             });
 
-            var bc = new BatchBlock<string>(3);
-            Task t2 = Task.Run(async () =>
+            // var bc = new BatchBlock<string>(3);BufferBlock
+            //var source1 = new CancellationTokenSource();
+            //source1.CancelAfter(10000);
+            //var bc = new BufferBlock<string>(new DataflowBlockOptions {});
+            var linkOptions = new DataflowLinkOptions { PropagateCompletion = true };
+            //var bc = new TransformBlock<string, string>(async str =>
+            //{
+            //    await Task.CompletedTask;
+            //    // Console.WriteLine($"TransformBlock {DateTime.Now.ToShortTimeString()} 输出0：{string.Join(',', str)}");
+            //    throw new NotImplementedException();
+            //    return str;// Task.FromResult(0);
+            //});
+            var bc = new TransformManyBlock<string, string>(async str =>
             {
-                try
-                {
-                    // Consume the BlockingCollection
-                    while (true)
-                    {
-                        if (await bc.OutputAvailableAsync())
-                        {
-                            var str = await bc.ReceiveAsync();
-                            Console.WriteLine($"输出0：{string.Join(',', str)}");
-                        }
-                        else
-                        {
-                            Console.WriteLine("That's All!");
-                            break;
-                        }
-                    }
-                }
-                catch (InvalidOperationException)
-                {
-                    // An InvalidOperationException means that Take() was called on a completed collection
-                    Console.WriteLine("InvalidOperationException That's All!");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Exception That's All!");
-                }
+                await Task.CompletedTask;
+                // Console.WriteLine($"TransformBlock {DateTime.Now.ToShortTimeString()} 输出0：{string.Join(',', str)}");
+                // throw new NotImplementedException();
+                return Enumerable.Range(0, 10).Select(t => str + t);// Task.FromResult(0);
             });
+            //var wb = new WriteOnceBlock<string>(str =>
+            //{
+            //    Console.WriteLine($"WriteOnceBlock {DateTime.Now.ToShortTimeString()} 输出0：{string.Join(',', str)}");
+            //    return str;
+            //});
+            var wb = new TransformBlock<string, string>(str =>
+            {
+                Console.WriteLine($"WriteOnceBlock {DateTime.Now.ToShortTimeString()} 输出0：{string.Join(',', str)}");
+                return str;
+            });
+            var ac = new ActionBlock<string>(str =>
+            {
+                Console.WriteLine($"ActionBlock {DateTime.Now.ToShortTimeString()} 输出0：{string.Join(',', str)}");
+            });
+            bc.LinkTo(wb, linkOptions);
+            bc.LinkTo(DataflowBlock.NullTarget<string>());
+            wb.LinkTo(ac, linkOptions);
+            //var tsk = bc.Completion.ContinueWith(delegate { wb.Complete(); });
+            //var tsk1 = wb.Completion.ContinueWith(delegate { ac.Complete(); });
+            //Task t2 = Task.Run(async () =>
+            //{
+            //    try
+            //    {
+            //        // Consume the BlockingCollection
+            //        while (true)
+            //        {
+            //            if (await bc.OutputAvailableAsync())
+            //            {
+            //                //var str = await bc.ReceiveAsync();
+            //                //Console.WriteLine($"Task2 {DateTime.Now.ToShortTimeString()} 输出0：{string.Join(',', str)}");
+            //                if (bc.TryReceive(out var str))
+            //                {
+            //                    Console.WriteLine($"Task2 {DateTime.Now.ToShortTimeString()} 输出0：{string.Join(',', str)}");
+            //                }
+            //            }
+            //            else
+            //            {
+            //                Console.WriteLine($"Task2 {DateTime.Now.ToShortTimeString()} That's All!");
+            //                break;
+            //            }
+            //        }
+            //    }
+            //    catch (InvalidOperationException)
+            //    {
+            //        // An InvalidOperationException means that Take() was called on a completed collection
+            //        Console.WriteLine("Task2 InvalidOperationException That's All!");
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        Console.WriteLine("Task2 Exception That's All!");
+            //    }
+            //});
+
+            //Task t3 = Task.Run(async () =>
+            //{
+            //    try
+            //    {
+            //        // Consume the BlockingCollection
+            //        while (true)
+            //        {
+            //            if (await bc.OutputAvailableAsync())
+            //            {
+            //                //var str = await bc.ReceiveAsync();
+            //                //Console.WriteLine($"Task3 {DateTime.Now.ToShortTimeString()} 输出0：{string.Join(',', str)}");
+
+            //                if (bc.TryReceive(out var str))
+            //                {
+            //                    Console.WriteLine($"Task3 {DateTime.Now.ToShortTimeString()} 输出0：{string.Join(',', str)}");
+            //                }
+            //            }
+            //            else
+            //            {
+            //                Console.WriteLine($"Task3 {DateTime.Now.ToShortTimeString()} That's All!");
+            //                break;
+            //            }
+            //        }
+            //    }
+            //    catch (InvalidOperationException)
+            //    {
+            //        // An InvalidOperationException means that Take() was called on a completed collection
+            //        Console.WriteLine("Task3 InvalidOperationException That's All!");
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        Console.WriteLine("Task3 Exception That's All!");
+            //    }
+            //});
+
+            // var bc1 = new TransformBlock<string, int>(Print);
+
+            //async Task Print(string str)
+            //{
+            //    await Task.CompletedTask;
+            //    Console.WriteLine($"TransformBlock {DateTime.Now.ToShortTimeString()} 输出0：{string.Join(',', str)}");
+            //}
 
             //bc.LinkTo(printResult, t => t.Length > 2);
             //bc.LinkTo(errorResult);
@@ -237,8 +321,26 @@ namespace t1_frame.task
             }
 
             //printResult.Completion.Wait();
-            await t2;
-            Console.WriteLine("Test method end.");
+            //await t2;
+            //await t3;
+            try
+            {
+                await bc.Completion;
+                await wb.Completion;
+                await ac.Completion;
+
+                //await tsk;
+                //await tsk1;
+            }
+            catch (Exception e) 
+            {
+                Console.WriteLine($"Unobserved exception: {e.Message}");
+            }
+
+      
+
+            // await bc.Completion.ContinueWith(delegate { ac.Complete(); });
+            Console.WriteLine($"{DateTime.Now.ToShortTimeString()} Test method end.");
 
             #region Thread Task 
             // string returnValue = del3.EndInvoke(tsk);

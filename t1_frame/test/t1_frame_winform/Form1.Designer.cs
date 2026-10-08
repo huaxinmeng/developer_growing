@@ -74,10 +74,10 @@
             this.tabItem1 = new DevComponents.DotNetBar.TabItem(this.components);
             this.tabItem3 = new DevComponents.DotNetBar.TabItem(this.components);
             this.tabControl1 = new DevComponents.DotNetBar.TabControl();
-            this.tabControlPanel2 = new DevComponents.DotNetBar.TabControlPanel();
-            this.tabItem5 = new DevComponents.DotNetBar.TabItem(this.components);
             this.tabControlPanel1 = new DevComponents.DotNetBar.TabControlPanel();
             this.tabItem4 = new DevComponents.DotNetBar.TabItem(this.components);
+            this.tabControlPanel2 = new DevComponents.DotNetBar.TabControlPanel();
+            this.tabItem5 = new DevComponents.DotNetBar.TabItem(this.components);
             this.panelEx1 = new DevComponents.DotNetBar.PanelEx();
             this.hScrollBarAdv1 = new DevComponents.DotNetBar.ScrollBar.HScrollBarAdv();
             this.command1 = new DevComponents.DotNetBar.Command(this.components);
@@ -106,10 +106,10 @@
             this.buttonItem22 = new DevComponents.DotNetBar.ButtonItem();
             this.buttonItem23 = new DevComponents.DotNetBar.ButtonItem();
             this.superTabControl1 = new DevComponents.DotNetBar.SuperTabControl();
-            this.superTabControlPanel2 = new DevComponents.DotNetBar.SuperTabControlPanel();
-            this.superTabItem2 = new DevComponents.DotNetBar.SuperTabItem();
             this.superTabControlPanel1 = new DevComponents.DotNetBar.SuperTabControlPanel();
             this.superTabItem1 = new DevComponents.DotNetBar.SuperTabItem();
+            this.superTabControlPanel2 = new DevComponents.DotNetBar.SuperTabControlPanel();
+            this.superTabItem2 = new DevComponents.DotNetBar.SuperTabItem();
             this.superTabStrip1 = new DevComponents.DotNetBar.SuperTabStrip();
             this.superTabItem3 = new DevComponents.DotNetBar.SuperTabItem();
             this.superTabItem4 = new DevComponents.DotNetBar.SuperTabItem();
@@ -165,9 +165,10 @@
             this.knobControl1 = new DevComponents.Instrumentation.KnobControl();
             this.treeGX1 = new DevComponents.Tree.TreeGX();
             this.node4 = new DevComponents.Tree.Node();
-            this.nodeConnector2 = new DevComponents.Tree.NodeConnector();
             this.nodeConnector3 = new DevComponents.Tree.NodeConnector();
             this.elementStyle2 = new DevComponents.Tree.ElementStyle();
+            this.nodeConnector2 = new DevComponents.Tree.NodeConnector();
+            this.flyout2 = new DevComponents.DotNetBar.Controls.Flyout(this.components);
             this.layoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.advTree1)).BeginInit();
@@ -639,29 +640,6 @@
             this.tabControl1.Tabs.Add(this.tabItem5);
             this.tabControl1.Text = "tabControl1";
             // 
-            // tabControlPanel2
-            // 
-            this.tabControlPanel2.DisabledBackColor = System.Drawing.Color.Empty;
-            this.tabControlPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlPanel2.Location = new System.Drawing.Point(0, 21);
-            this.tabControlPanel2.Name = "tabControlPanel2";
-            this.tabControlPanel2.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel2.Size = new System.Drawing.Size(256, 131);
-            this.tabControlPanel2.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.tabControlPanel2.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel2.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(132)))), ((int)(((byte)(157)))), ((int)(((byte)(189)))));
-            this.tabControlPanel2.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
-            | DevComponents.DotNetBar.eBorderSide.Bottom)));
-            this.tabControlPanel2.Style.GradientAngle = 90;
-            this.tabControlPanel2.TabIndex = 5;
-            this.tabControlPanel2.TabItem = this.tabItem5;
-            // 
-            // tabItem5
-            // 
-            this.tabItem5.AttachedControl = this.tabControlPanel2;
-            this.tabItem5.Name = "tabItem5";
-            this.tabItem5.Text = "tabItem5";
-            // 
             // tabControlPanel1
             // 
             this.tabControlPanel1.DisabledBackColor = System.Drawing.Color.Empty;
@@ -684,6 +662,29 @@
             this.tabItem4.AttachedControl = this.tabControlPanel1;
             this.tabItem4.Name = "tabItem4";
             this.tabItem4.Text = "tabItem4";
+            // 
+            // tabControlPanel2
+            // 
+            this.tabControlPanel2.DisabledBackColor = System.Drawing.Color.Empty;
+            this.tabControlPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlPanel2.Location = new System.Drawing.Point(0, 21);
+            this.tabControlPanel2.Name = "tabControlPanel2";
+            this.tabControlPanel2.Padding = new System.Windows.Forms.Padding(1);
+            this.tabControlPanel2.Size = new System.Drawing.Size(256, 131);
+            this.tabControlPanel2.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.tabControlPanel2.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.tabControlPanel2.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(132)))), ((int)(((byte)(157)))), ((int)(((byte)(189)))));
+            this.tabControlPanel2.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
+            | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel2.Style.GradientAngle = 90;
+            this.tabControlPanel2.TabIndex = 5;
+            this.tabControlPanel2.TabItem = this.tabItem5;
+            // 
+            // tabItem5
+            // 
+            this.tabItem5.AttachedControl = this.tabControlPanel2;
+            this.tabItem5.Name = "tabItem5";
+            this.tabItem5.Text = "tabItem5";
             // 
             // panelEx1
             // 
@@ -990,22 +991,6 @@
             this.superTabItem2});
             this.superTabControl1.Text = "superTabControl1";
             // 
-            // superTabControlPanel2
-            // 
-            this.superTabControlPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.superTabControlPanel2.Location = new System.Drawing.Point(0, 24);
-            this.superTabControlPanel2.Name = "superTabControlPanel2";
-            this.superTabControlPanel2.Size = new System.Drawing.Size(260, 62);
-            this.superTabControlPanel2.TabIndex = 0;
-            this.superTabControlPanel2.TabItem = this.superTabItem2;
-            // 
-            // superTabItem2
-            // 
-            this.superTabItem2.AttachedControl = this.superTabControlPanel2;
-            this.superTabItem2.GlobalItem = false;
-            this.superTabItem2.Name = "superTabItem2";
-            this.superTabItem2.Text = "superTabItem2";
-            // 
             // superTabControlPanel1
             // 
             this.superTabControlPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1021,6 +1006,22 @@
             this.superTabItem1.GlobalItem = false;
             this.superTabItem1.Name = "superTabItem1";
             this.superTabItem1.Text = "superTabItem1";
+            // 
+            // superTabControlPanel2
+            // 
+            this.superTabControlPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.superTabControlPanel2.Location = new System.Drawing.Point(0, 24);
+            this.superTabControlPanel2.Name = "superTabControlPanel2";
+            this.superTabControlPanel2.Size = new System.Drawing.Size(260, 62);
+            this.superTabControlPanel2.TabIndex = 0;
+            this.superTabControlPanel2.TabItem = this.superTabItem2;
+            // 
+            // superTabItem2
+            // 
+            this.superTabItem2.AttachedControl = this.superTabControlPanel2;
+            this.superTabItem2.GlobalItem = false;
+            this.superTabItem2.Name = "superTabItem2";
+            this.superTabItem2.Text = "superTabItem2";
             // 
             // superTabStrip1
             // 
@@ -1609,10 +1610,6 @@
             this.node4.Name = "node4";
             this.node4.Text = "node4";
             // 
-            // nodeConnector2
-            // 
-            this.nodeConnector2.LineWidth = 5;
-            // 
             // nodeConnector3
             // 
             this.nodeConnector3.LineWidth = 5;
@@ -1640,6 +1637,15 @@
             this.elementStyle2.PaddingRight = 3;
             this.elementStyle2.PaddingTop = 3;
             this.elementStyle2.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(128)))));
+            // 
+            // nodeConnector2
+            // 
+            this.nodeConnector2.LineWidth = 5;
+            // 
+            // flyout2
+            // 
+            this.flyout2.DropShadow = false;
+            this.flyout2.Parent = this;
             // 
             // Form1
             // 
@@ -1862,6 +1868,7 @@
         private DevComponents.Tree.NodeConnector nodeConnector3;
         private DevComponents.Tree.ElementStyle elementStyle2;
         private DevComponents.Tree.NodeConnector nodeConnector2;
+        private DevComponents.DotNetBar.Controls.Flyout flyout2;
     }
 }
 
