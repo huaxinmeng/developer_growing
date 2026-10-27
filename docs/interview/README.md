@@ -1,15 +1,14 @@
 # 面试资料归档
 
-> 后端岗位（C# / .NET + Redis + MQ）面试资料集合。五份文档统一采用同一套结构：**正文分章精讲 + 附录 A 背诵卡 + 附录 B 模拟面试 + 附录 C 口述稿**（Redis 另有附录 D 时序图）。
+> 后端岗位（C# / .NET + Redis + MQ）面试资料集合。四份文档统一采用同一套结构：**正文分章精讲 + 附录 A 背诵卡 + 附录 B 模拟面试 + 附录 C 口述稿**（Redis 另有附录 D 时序图）。
 > 目标：既能当教材精读，也能在面试前 20 分钟快速过一遍。
 
 ## 文档清单
 
 | 文档 | 内容 | 规模 | 特别之处 |
 | --- | --- | --- | --- |
-| [csharp-interview.md](csharp-interview.md) | 类型系统、GC 与内存、集合与 LINQ、并发与异步、常考手写题 | 39 题 + 附录 A/B/C · 805 行 | 语言层地基，6 道手写题都在这 |
+| [csharp-interview.md](csharp-interview.md) | 类型系统、GC 与内存、集合与 LINQ、并发与异步、**并发异步进阶（原理 + 10 道自测 + FAQ）**、常考手写题 | 39 题 + 10 道自测 + 附录 A/B/C · 1342 行 | 语言层地基，手写题与 async 深挖都在这 |
 | [dotnet-interview.md](dotnet-interview.md) | ASP.NET Core、EF Core、分布式与架构、电商场景题 | 33 题 + 附录 A/B/C · 782 行 | 工程落地最全，库存扣减五方案 |
-| [async-concurrency-core.md](async-concurrency-core.md) | 并发 / 并行 / 异步的概念边界、`async/await` 原理、`Task`/`ValueTask`、线程安全与常见事故 | 9 题 + 10 道自测 · 554 行 · 7 节 | 专治「`await` 到底释放不释放线程」这类追问 |
 | [redis-interview.md](redis-interview.md) | 快的原因、编码、持久化、过期淘汰、缓存三坑、一致性、主从/哨兵/Cluster、分布式锁、大 key/热 key、场景设计 | 42 题 + 附录 A/B/C/D · 991 行 | 附录 D 有 4 张 Mermaid 时序图 |
 | [mq-interview.md](mq-interview.md) | RabbitMQ 模型与可靠性、集群与运维；Kafka 架构、生产者/消费者、ISR/HW、KRaft；选型对比 | 36 题 + 附录 A/B/C · 850 行 | 直达本仓库秒杀链路的真实实现 |
 
@@ -26,7 +25,7 @@
 
 | 时间 | 走法 | 目的 |
 | --- | --- | --- |
-| **20 分钟** | 五份文档的「附录 A 背诵卡」 | 临考最后一遍，只记结论和数字 |
+| **20 分钟** | 四份文档的「附录 A 背诵卡」 | 临考最后一遍，只记结论和数字 |
 | **1 天** | 各篇正文 → 篇末「自测清单」 | 建立体系，卡住的地方回正文对应题号 |
 | **半天** | 附录 B（20 题模拟 + 追问链）→ 附录 C（3 分钟口述稿） | 练「被追问也不慌」和「能连续讲 3 分钟」 |
 
@@ -48,7 +47,7 @@
 | 值类型 / struct / Equals | [csharp Q1~Q3](csharp-interview.md) | 附录 A 第 1~3 条 |
 | 泛型 / 委托 / 闭包 / yield | [csharp Q8~Q11](csharp-interview.md) | 附录 B Q2/Q3/Q4 |
 | GC 与内存泄漏 | [csharp §二](csharp-interview.md) | 附录 B Q5/Q6 |
-| 并发 / 异步 / 线程池 | [async-concurrency-core.md](async-concurrency-core.md) | [csharp §四](csharp-interview.md) |
+| 并发 / 异步 / 线程池 | [csharp §五 进阶](csharp-interview.md) | 附录 B Q7~Q14、附录 C 口述稿 |
 | ASP.NET Core / EF Core | [dotnet-interview.md](dotnet-interview.md) | 附录 A 第 1~14 条 |
 | 缓存穿透 / 击穿 / 雪崩 | [redis §四](redis-interview.md#四缓存三大问题与一致性) | 附录 A 第 15~18 条 |
 | 缓存与 DB 一致性 | [redis Q18](redis-interview.md) | 附录 B Q8/Q9、附录 D 图 1~2 |
