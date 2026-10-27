@@ -1,6 +1,6 @@
 # 面试资料归档
 
-> 后端岗位（C# / .NET + Redis + MQ）面试资料集合。四份文档统一采用同一套结构：**正文分章精讲 + 附录 A 背诵卡 + 附录 B 模拟面试 + 附录 C 口述稿**（Redis 另有附录 D 时序图）。
+> 后端岗位（C# / .NET + MySQL + Redis + MQ）面试资料集合。五份文档统一采用同一套结构：**正文分章精讲 + 附录 A 背诵卡 + 附录 B 模拟面试 + 附录 C 口述稿**（MySQL 与 Redis 另有附录 D 时序图）。
 > 目标：既能当教材精读，也能在面试前 20 分钟快速过一遍。
 
 ## 文档清单
@@ -9,6 +9,7 @@
 | --- | --- | --- | --- |
 | [csharp-interview.md](csharp-interview.md) | 类型系统、GC 与内存、集合与 LINQ、并发与异步、**并发异步进阶（原理 + 10 道自测 + FAQ）**、常考手写题 | 39 题 + 10 道自测 + 附录 A/B/C · 1342 行 | 语言层地基，手写题与 async 深挖都在这 |
 | [dotnet-interview.md](dotnet-interview.md) | ASP.NET Core、EF Core、分布式与架构、电商场景题 | 33 题 + 附录 A/B/C · 782 行 | 工程落地最全，库存扣减五方案 |
+| [mysql-interview.md](mysql-interview.md) | 一条 SQL 的旅程、B+ 树索引与失效、MVCC 与锁、redo/undo/binlog、EXPLAIN 优化、表设计与场景题 | 38 题 + 附录 A/B/C/D · 954 行 | 附录 D 有 4 张图：执行路径 / 两阶段提交 / MVCC / 加锁范围 |
 | [redis-interview.md](redis-interview.md) | 快的原因、编码、持久化、过期淘汰、缓存三坑、一致性、主从/哨兵/Cluster、分布式锁、大 key/热 key、场景设计 | 42 题 + 附录 A/B/C/D · 991 行 | 附录 D 有 4 张 Mermaid 时序图 |
 | [mq-interview.md](mq-interview.md) | RabbitMQ 模型与可靠性、集群与运维；Kafka 架构、生产者/消费者、ISR/HW、KRaft；选型对比 | 36 题 + 附录 A/B/C · 850 行 | 直达本仓库秒杀链路的真实实现 |
 
@@ -25,7 +26,7 @@
 
 | 时间 | 走法 | 目的 |
 | --- | --- | --- |
-| **20 分钟** | 四份文档的「附录 A 背诵卡」 | 临考最后一遍，只记结论和数字 |
+| **20 分钟** | 五份文档的「附录 A 背诵卡」 | 临考最后一遍，只记结论和数字 |
 | **1 天** | 各篇正文 → 篇末「自测清单」 | 建立体系，卡住的地方回正文对应题号 |
 | **半天** | 附录 B（20 题模拟 + 追问链）→ 附录 C（3 分钟口述稿） | 练「被追问也不慌」和「能连续讲 3 分钟」 |
 
@@ -45,6 +46,10 @@
 | 主题 | 首选 | 再看 |
 | --- | --- | --- |
 | 值类型 / struct / Equals | [csharp Q1~Q3](csharp-interview.md) | 附录 A 第 1~3 条 |
+| 索引设计与失效 | [mysql §二](mysql-interview.md) | 附录 A 第 4~12 条、附录 B Q2~Q6 |
+| 事务 / MVCC / 锁 | [mysql §三](mysql-interview.md) | 附录 D 图 3~4 |
+| 两阶段提交 / redo-undo-binlog | [mysql §四](mysql-interview.md) | 附录 D 图 2 |
+| 慢查询 / EXPLAIN | [mysql §五](mysql-interview.md) | 附录 B Q14、Q20 |
 | 泛型 / 委托 / 闭包 / yield | [csharp Q8~Q11](csharp-interview.md) | 附录 B Q2/Q3/Q4 |
 | GC 与内存泄漏 | [csharp §二](csharp-interview.md) | 附录 B Q5/Q6 |
 | 并发 / 异步 / 线程池 | [csharp §五 进阶](csharp-interview.md) | 附录 B Q7~Q14、附录 C 口述稿 |
@@ -56,7 +61,7 @@
 | 消息不丢 | [mq Q7](mq-interview.md) | 附录 A RabbitMQ 第 6~8 条、Kafka 第 6~7 条 |
 | 顺序性 | [mq Q9 / Q33](mq-interview.md) | 附录 C 的「顺序只在很窄范围内成立」 |
 | outbox / 最终一致 | [mq §36](mq-interview.md) | [../seckill-1000qps.md](../seckill-1000qps.md) |
-| 库存扣减 / 超卖 | [dotnet §四](dotnet-interview.md) | [../inventory-deduction.md](../inventory-deduction.md) |
+| 库存扣减 / 超卖 | [dotnet §四](dotnet-interview.md) | [mysql Q36](mysql-interview.md)、[../inventory-deduction.md](../inventory-deduction.md) |
 | 秒杀方案 | [../seckill-1000qps.md](../seckill-1000qps.md) | redis 附录 A 第 35 条、mq Q18、dotnet Q20 |
 
 ---
