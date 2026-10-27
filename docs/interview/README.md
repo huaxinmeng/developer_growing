@@ -1,6 +1,6 @@
 # 面试资料归档
 
-> 后端岗位（C# / .NET + MySQL + Redis + MQ + 系统/分布式/架构）面试资料集合。九份文档统一采用同一套结构：**正文分章精讲 + 附录 A 背诵卡 + 附录 B 模拟面试 + 附录 C 口述稿**（MySQL / Redis / 分布式 / 系统网络 / 排查 / DDD 另有附录 D 图）。
+> 后端岗位（C# / .NET + MySQL/MongoDB + Redis + MQ + 系统/分布式/架构）面试资料集合。十份文档统一采用同一套结构：**正文分章精讲 + 附录 A 背诵卡 + 附录 B 模拟面试 + 附录 C 口述稿**（多数另有附录 D 图）。
 > 目标：既能当教材精读，也能在面试前 20 分钟快速过一遍。
 
 ## 文档清单
@@ -10,6 +10,7 @@
 | [csharp-interview.md](csharp-interview.md) | 类型系统、GC 与内存、集合与 LINQ、并发与异步、**并发异步进阶（原理 + 10 道自测 + FAQ）**、常考手写题 | 39 题 + 10 道自测 + 附录 A/B/C · 1342 行 | 语言层地基，手写题与 async 深挖都在这 |
 | [dotnet-interview.md](dotnet-interview.md) | ASP.NET Core、EF Core、分布式与架构、电商场景题 | 33 题 + 附录 A/B/C · 782 行 | 工程落地最全，库存扣减五方案 |
 | [mysql-interview.md](mysql-interview.md) | 一条 SQL 的旅程、B+ 树索引与失效、MVCC 与锁、redo/undo/binlog、EXPLAIN 优化、表设计与场景题 | 38 题 + 附录 A/B/C/D · 954 行 | 附录 D 有 4 张图：执行路径 / 两阶段提交 / MVCC / 加锁范围 |
+| [mongodb-interview.md](mongodb-interview.md) | 文档建模（内嵌 vs 引用）、索引与 ESR、聚合与 `$lookup`、事务与读写关注、副本集与分片、WiredTiger | 36 题 + 附录 A/B/C/D · 850 行 | 附「本仓库审计日志用例」（upsert 幂等） |
 | [redis-interview.md](redis-interview.md) | 快的原因、编码、持久化、过期淘汰、缓存三坑、一致性、主从/哨兵/Cluster、分布式锁、大 key/热 key、场景设计 | 42 题 + 附录 A/B/C/D · 991 行 | 附录 D 有 4 张 Mermaid 时序图 |
 | [mq-interview.md](mq-interview.md) | RabbitMQ 模型与可靠性、集群与运维；Kafka 架构、生产者/消费者、ISR/HW、KRaft；选型对比 | 36 题 + 附录 A/B/C · 850 行 | 直达本仓库秒杀链路的真实实现 |
 | [distributed-interview.md](distributed-interview.md) | CAP/BASE、六种分布式事务、Raft 共识、注册中心/锁/ID、雪崩防护、多活与可观测性 | 27 题 + 附录 A/B/C/D · 674 行 | 附录 D 有 4 张图：2PC 阻塞、Raft 选举、本地消息表、熔断状态机 |
@@ -30,7 +31,7 @@
 
 | 时间 | 走法 | 目的 |
 | --- | --- | --- |
-| **20 分钟** | 九份文档的「附录 A 背诵卡」 | 临考最后一遍，只记结论和数字 |
+| **20 分钟** | 十份文档的「附录 A 背诵卡」 | 临考最后一遍，只记结论和数字 |
 | **1 天** | 各篇正文 → 篇末「自测清单」 | 建立体系，卡住的地方回正文对应题号 |
 | **半天** | 附录 B（20 题模拟 + 追问链）→ 附录 C（3 分钟口述稿） | 练「被追问也不慌」和「能连续讲 3 分钟」 |
 
@@ -40,8 +41,8 @@
 | --- | --- | --- |
 | **C# / .NET 后端** | csharp → dotnet → mysql → redis → mq | 语言与框架是主战场，存储与缓存是必问项 |
 | **中间件 / 基础架构** | os-network → linux-perf → redis → mq → distributed | 先懂 IO 与网络，才能解释 Redis/Kafka 为什么快 |
-| **架构 / 技术负责人** | ddd → distributed → mysql → mq → redis | 边界、一致性与容量这三件事决定架构成败 |
-| **只求稳过** | 九份附录 A → 各篇附录 B 的 Q1~Q10 | 覆盖 80% 的高频问题 |
+| **架构 / 技术负责人** | ddd → distributed → mysql → mongodb → mq → redis | 边界、一致性与容量这三件事决定架构成败 |
+| **只求稳过** | 十份附录 A → 各篇附录 B 的 Q1~Q10 | 覆盖 80% 的高频问题 |
 
 ### 自测方法
 
@@ -67,6 +68,10 @@
 | 事务 / MVCC / 锁 | [mysql §三](mysql-interview.md) | 附录 D 图 3~4 |
 | 两阶段提交 / redo-undo-binlog | [mysql §四](mysql-interview.md) | 附录 D 图 2 |
 | 慢查询 / EXPLAIN | [mysql §五](mysql-interview.md) | 附录 B Q14、Q20 |
+| 文档建模（内嵌 vs 引用） | [mongo §一](mongodb-interview.md) | [ddd Q4](ddd-microservices-interview.md)（聚合边界） |
+| 索引设计与 explain | [mongo §二](mongodb-interview.md) | [mysql §二](mysql-interview.md)（B+ 树 vs WiredTiger） |
+| 副本集 / 分片 / oplog | [mongo §五](mongodb-interview.md) | [distributed §二](distributed-interview.md)（选主与多数派） |
+| 幂等写入（唯一索引 + upsert） | [mongo Q19](mongodb-interview.md) | [mq Q8](mq-interview.md)、[dotnet Q13](dotnet-interview.md) |
 | 缓存穿透 / 击穿 / 雪崩 | [redis §四](redis-interview.md#四缓存三大问题与一致性) | 附录 A 第 15~18 条 |
 | 缓存与 DB 一致性 | [redis Q18](redis-interview.md) | 附录 B Q8/Q9、附录 D 图 1~2 |
 | 分布式锁（实现细节） | [redis §六](redis-interview.md) | 附录 D 图 3、附录 B Q10~Q12 |
