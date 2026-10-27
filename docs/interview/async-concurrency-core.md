@@ -548,6 +548,7 @@ Thread.Sleep(3000);       // UI 线程被独占 → 界面冻结 3 秒，未响�
 
 ## 相关文档
 
-- [.NET 经典面试题](dotnet-interview.md)
+- [.NET 经典面试题（平台与框架）](dotnet-interview.md)
+- [C# 经典面试题（语言与并发）](csharp-interview.md)
 - [秒杀 1000 QPS](../seckill-1000qps.md)
 - [库存扣减](../inventory-deduction.md)
