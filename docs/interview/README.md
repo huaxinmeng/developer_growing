@@ -3,6 +3,19 @@
 > 后端岗位（C# / .NET + 数据结构算法 + 设计模式 + MySQL/MongoDB + Redis + MQ + 系统/分布式/架构/DDD）面试资料集合。十六份文档统一采用同一套结构：**正文分章精讲 + 附录 A 背诵卡 + 附录 B 模拟面试 + 附录 C 口述稿**（多数另有附录 D 图）。
 > 目标：既能当教材精读，也能在面试前 20 分钟快速过一遍。
 
+## 总览
+
+| 指标 | 数值 |
+| --- | --- |
+| 文档 | **16 篇**（每篇一个技术域，可独立阅读） |
+| 正文题 | **479 道**（每道含「要点答案 + 常见追问」） |
+| 模拟追问 | **320 道**（16 篇 × 附录 B 的 20 题，带追问链） |
+| 总行数 | **13,110 行** |
+| 结构 | 正文分章 → 自测清单 → 附录 A 背诵卡 / B 模拟面试 / C 3 分钟口述 / D 时序图 |
+| 代码 | C# 示例 60+ 段，SQL / Mermaid / 配置若干，均取自或对应本仓库真实实现 |
+
+> 建议入口：先看下面「按岗位选读」，再用「附录 A 背诵卡」定位薄弱点，最后用「附录 B 的追问链」自测。
+
 ## 文档清单
 
 | 文档 | 内容 | 规模 | 特别之处 |
@@ -10,14 +23,14 @@
 | [csharp-interview.md](csharp-interview.md) | 类型系统、GC 与内存、集合与 LINQ、并发与异步、**并发异步进阶（原理 + 10 道自测 + FAQ）**、常考手写题 | 39 题 + 10 道自测 + 附录 A/B/C · 1342 行 | 语言层地基，手写题与 async 深挖都在这 |
 | [csharp-dsa-interview.md](csharp-dsa-interview.md) | 复杂度与集合选型、手写数据结构（链表/堆/哈希/并查集/Trie/LRU）、算法套路（双指针/二分/DFS-BFS/回溯/DP）、C# 刷题坑 | 27 题 + 附录 A~E · 1166 行 | 17 段可运行 C# 代码 + 六周刷题路线 |
 | [aop-design-patterns-interview.md](aop-design-patterns-interview.md) | AOP（术语/五种通知/三种织入/Castle 四限制/中间件与拦截器分工）、SOLID、23 种模式与四组辨析、现代实践 | 32 题 + 附录 A/B/C/D · 879 行 | 附「本仓库模式与 AOP 对照表」 |
-| [dotnet-interview.md](dotnet-interview.md) | ASP.NET Core、EF Core（速览 5 题）、分布式与架构、电商场景题 | 33 题 + 附录 A/B/C · 785 行 | 工程落地最全，库存扣减五方案 |
+| [dotnet-interview.md](dotnet-interview.md) | ASP.NET Core、EF Core（速览 5 题）、分布式与架构、电商场景题 | 33 题 + 附录 A/B/C · 783 行 | 工程落地最全，库存扣减五方案 |
 | [efcore-interview.md](efcore-interview.md) | DbContext 生命周期与池化、变更跟踪、映射（Owned/TPH/值转换器/并发令牌）、查询翻译与 N+1、写入事务、迁移与拦截器 | 30 题 + 附录 A/B/C/D · 820 行 | 附「本仓库 EF Core 实践」7 条可对照代码 |
 | [abp-interview.md](abp-interview.md) | 模块与生命周期、约定式 DI、分层与动态 API、UoW/审计/权限/多租户/事件总线、性能开关、版本冲突 | 29 题 + 附录 A/B/C/D · 731 行 | 全篇以本仓库真实代码为例（秒杀关审计、审计走 Kafka） |
 | [mysql-interview.md](mysql-interview.md) | 一条 SQL 的旅程、B+ 树索引与失效、MVCC 与锁、redo/undo/binlog、EXPLAIN 优化、表设计与场景题 | 38 题 + 附录 A/B/C/D · 954 行 | 附录 D 有 4 张图：执行路径 / 两阶段提交 / MVCC / 加锁范围 |
 | [mongodb-interview.md](mongodb-interview.md) | 文档建模（内嵌 vs 引用）、索引与 ESR、聚合与 `$lookup`、事务与读写关注、副本集与分片、WiredTiger | 36 题 + 附录 A/B/C/D · 850 行 | 附「本仓库审计日志用例」（upsert 幂等） |
 | [redis-interview.md](redis-interview.md) | 快的原因、编码、持久化、过期淘汰、缓存三坑、一致性、主从/哨兵/Cluster、分布式锁、大 key/热 key、场景设计 | 42 题 + 附录 A/B/C/D · 991 行 | 附录 D 有 4 张 Mermaid 时序图 |
 | [mq-interview.md](mq-interview.md) | RabbitMQ 模型与可靠性、集群与运维；Kafka 架构、生产者/消费者、ISR/HW、KRaft；选型对比 | 36 题 + 附录 A/B/C · 850 行 | 直达本仓库秒杀链路的真实实现 |
-| [distributed-interview.md](distributed-interview.md) | CAP 速览/BASE、六种分布式事务、Raft 共识、注册中心/锁/ID、雪崩防护、多活与可观测性 | 27 题 + 附录 A/B/C/D · 677 行 | 附录 D 有 4 张图：2PC 阻塞、Raft 选举、本地消息表、熔断状态机 |
+| [distributed-interview.md](distributed-interview.md) | CAP 速览/BASE、六种分布式事务、Raft 共识、注册中心/锁/ID、雪崩防护、多活与可观测性 | 27 题 + 附录 A/B/C/D · 676 行 | 附录 D 有 4 张图：2PC 阻塞、Raft 选举、本地消息表、熔断状态机 |
 | [cap-interview.md](cap-interview.md) | CAP 严格定义与误解、PACELC、一致性谱系与会话保证、共识/2PC/Saga 的定位、中间件 CP-AP 对照、局部 CP 实践 | 22 题 + 附录 A/B/C/D · 608 行 | 4 张图 + 「局部 CP」库存落地方案 |
 | [os-network-interview.md](os-network-interview.md) | TCP 握手挥手与可靠传输、五种 IO 模型与 epoll、零拷贝、进程线程协程、排查调优 | 22 题 + 附录 A/B/C/D · 616 行 | 解释「为什么 Redis/Kafka 快」的底层依据 |
 | [linux-perf-interview.md](linux-perf-interview.md) | 分层排查方法论、CPU/内存/磁盘/网络指标解读、容器环境陷阱、P99 抖动定位 | 25 题 + 附录 A/B/C/D · 626 行 | 60 秒排查清单 + 「可证伪」记录模板 |
