@@ -112,6 +112,63 @@ Redis List outbox → Kafka → 批量消费者 → 一个事务最多 500 条
 
 把 1000 次行锁竞争压缩成约 2~5 次批量事务/秒。
 
+### 端到端时序
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor C as 客户端
+    participant API as SeckillController
+    participant R as Redis（Lua）
+    participant OB as SeckillOutboxRelay
+    participant K as Kafka
+    participant CON as SeckillKafkaConsumer
+    participant DB as MySQL
+
+    C->>API: POST /api/seckill/{productId}
+    API->>R: EVALSHA（幂等键 / outbox / processing / 8 个库存桶）
+    alt 库存不足 或 重复请求
+        R-->>API: 0
+        API-->>C: 拒绝（全程不碰 MySQL）
+    else 预扣成功
+        R-->>API: 1（DECRBY + LPUSH outbox 在同一脚本内原子完成）
+        API-->>C: 202 accepted
+    end
+
+    loop 每 50ms 一批（最多 200 条）
+        OB->>R: RPOPLPUSH outbox → processing
+        OB->>K: Produce（acks=all + 幂等）
+        K-->>OB: ack
+        OB->>R: LREM processing（确认已投递）
+    end
+
+    K->>CON: poll（最多 500 条/批）
+    CON->>DB: 单事务：扣减库存 + 订单 + 流水
+    DB-->>CON: COMMIT
+    CON->>K: Commit(offset + 1)
+```
+
+失败与补偿路径：
+
+```mermaid
+sequenceDiagram
+    participant OB as SeckillOutboxRelay
+    participant R as Redis
+    participant K as Kafka
+    participant CON as SeckillKafkaConsumer
+
+    Note over OB,K: ① 投递 Kafka 失败
+    OB->>R: LREM processing + LPUSH outbox（整批放回，下轮重试）
+
+    Note over OB,K: ② relay 进程崩溃（消息停在 processing）
+    R-->>OB: 重启时 RecoverProcessingAsync：processing → outbox 重投
+
+    Note over OB,K: ③ 消费者在 COMMIT 前崩溃
+    K-->>CON: 从上次提交位点重放（重复消费）
+
+    Note over CON: 按 order_no 幂等，重复消息不产生副作用
+```
+
 ---
 
 ## 3. 关键设计
