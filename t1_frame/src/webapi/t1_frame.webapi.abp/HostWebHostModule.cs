@@ -8,6 +8,7 @@ using StackExchange.Redis;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Reflection;
 using t1_frame.application.abp;
+using t1_frame.application.abp.Seckill;
 using t1_frame.entityframeworkcore.abp;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.ExceptionHandling;
@@ -120,6 +121,40 @@ namespace t1_frame.webapi.abp
                 };
             });
 
+            // Vue 前端（Vite dev server / preview）跨域访问
+            context.Services.AddCors(options =>
+            {
+                options.AddPolicy("InventoryWeb", policy =>
+                {
+                    policy.WithOrigins(
+                            "http://localhost:5173",
+                            "http://127.0.0.1:5173",
+                            "http://localhost:4173",
+                            "http://127.0.0.1:4173")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
+
+            // 1000 QPS 秒杀通道：
+            // Redis Lua 预扣 + List outbox -> Kafka -> 批量消费者落库。
+            // 请求路径不访问 MySQL，也不依赖进程内队列。
+            context.Services.AddSingleton(new SeckillKafkaOptions
+            {
+                BootstrapServers = appConfiguration["Kafka:Connections:Default:BootstrapServers"]
+                    ?? "localhost:9192",
+                Topic = appConfiguration["Seckill:Kafka:Topic"] ?? "seckill-orders",
+                GroupId = appConfiguration["Seckill:Kafka:GroupId"] ?? "seckill-order-worker",
+                Partitions = appConfiguration.GetValue("Seckill:Kafka:Partitions", 8),
+                ReplicationFactor = appConfiguration.GetValue<short>("Seckill:Kafka:ReplicationFactor", 1)
+            });
+
+            context.Services.AddSingleton<SeckillQueue>();
+            context.Services.AddSingleton<SeckillBatchWriter>();
+            context.Services.AddSingleton<SeckillService>();
+            context.Services.AddHostedService<SeckillOutboxRelay>();
+            context.Services.AddHostedService<SeckillKafkaConsumer>();
+
             ConfigureSwagger(context.Services);
         }
 
@@ -134,6 +169,8 @@ namespace t1_frame.webapi.abp
             }
 
             app.UseRouting();
+
+            app.UseCors("InventoryWeb");
 
             app.UseAuthorization();
 

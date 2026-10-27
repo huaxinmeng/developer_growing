@@ -26,6 +26,9 @@ namespace t1_frame.entityframeworkcore.abp
         public DbSet<T1UserAccount> T1UserAccount { get; set; }
         public DbSet<T1GoodsStock> T1GoodsStock { get; set; }
         public DbSet<T1TradeLog> T1TradeLog { get; set; }
+        public DbSet<T1InventoryStockFlow> T1InventoryStockFlow { get; set; }
+        public DbSet<T1InventoryOrder> T1InventoryOrder { get; set; }
+        public DbSet<T1InventoryProductDetail> T1InventoryProductDetail { get; set; }
 
         public DbSet<OutgoingEventRecord> OutgoingEvents { get; set; }
         public DbSet<IncomingEventRecord> IncomingEvents { get; set; }
@@ -51,6 +54,26 @@ namespace t1_frame.entityframeworkcore.abp
             });
             modelBuilder.Entity<T1GoodsStock>().HasKey(b => b.Id);
             modelBuilder.Entity<T1TradeLog>().HasKey(b => b.Id);
+
+            modelBuilder.Entity<T1InventoryStockFlow>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.HasIndex(e => e.biz_no).IsUnique();
+            });
+
+            modelBuilder.Entity<T1InventoryOrder>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.HasIndex(e => e.order_no).IsUnique();
+                entity.Property(e => e.unit_price).HasPrecision(18, 2);
+            });
+
+            modelBuilder.Entity<T1InventoryProductDetail>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.price).HasPrecision(18, 2);
+            });
 
             modelBuilder.Entity<T1UserAccount>().Property(e => e.version).IsConcurrencyToken();  // EF Core 乐观锁
 

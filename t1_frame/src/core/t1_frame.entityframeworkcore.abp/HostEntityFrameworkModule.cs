@@ -147,7 +147,10 @@ namespace t1_frame.entityframeworkcore.abp
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
         {
-            
+            // 库存扣减示例：幂等建表 + 初始化演示商品
+            using var scope = context.ServiceProvider.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<T1FrameAbpDbContext>();
+            InventorySchema.Initialize(db);
         }
     }
 }

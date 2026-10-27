@@ -30,6 +30,9 @@ namespace t1_frame.application.abp
 
             context.Services.Replace(ServiceDescriptor.Singleton<IAuditingStore, KafkaAuditingStore>());
             context.Services.AddHostedService<AuditLogConsumerService>();
+
+            // 库存扣减示例：显式注册，便于并发压测时从独立 Scope 解析
+            context.Services.AddTransient<IInventoryAppService, InventoryAppService>();
         }
     }
 }
