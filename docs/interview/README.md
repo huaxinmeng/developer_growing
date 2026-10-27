@@ -1,6 +1,6 @@
 # 面试资料归档
 
-> 后端岗位（C# / .NET + MySQL/MongoDB + Redis + MQ + 系统/分布式/架构）面试资料集合。十份文档统一采用同一套结构：**正文分章精讲 + 附录 A 背诵卡 + 附录 B 模拟面试 + 附录 C 口述稿**（多数另有附录 D 图）。
+> 后端岗位（C# / .NET + 数据结构算法 + MySQL/MongoDB + Redis + MQ + 系统/分布式/架构）面试资料集合。十一份文档统一采用同一套结构：**正文分章精讲 + 附录 A 背诵卡 + 附录 B 模拟面试 + 附录 C 口述稿**（多数另有附录 D 图）。
 > 目标：既能当教材精读，也能在面试前 20 分钟快速过一遍。
 
 ## 文档清单
@@ -8,6 +8,7 @@
 | 文档 | 内容 | 规模 | 特别之处 |
 | --- | --- | --- | --- |
 | [csharp-interview.md](csharp-interview.md) | 类型系统、GC 与内存、集合与 LINQ、并发与异步、**并发异步进阶（原理 + 10 道自测 + FAQ）**、常考手写题 | 39 题 + 10 道自测 + 附录 A/B/C · 1342 行 | 语言层地基，手写题与 async 深挖都在这 |
+| [csharp-dsa-interview.md](csharp-dsa-interview.md) | 复杂度与集合选型、手写数据结构（链表/堆/哈希/并查集/Trie/LRU）、算法套路（双指针/二分/DFS-BFS/回溯/DP）、C# 刷题坑 | 27 题 + 附录 A~E · 1166 行 | 17 段可运行 C# 代码 + 六周刷题路线 |
 | [dotnet-interview.md](dotnet-interview.md) | ASP.NET Core、EF Core、分布式与架构、电商场景题 | 33 题 + 附录 A/B/C · 782 行 | 工程落地最全，库存扣减五方案 |
 | [mysql-interview.md](mysql-interview.md) | 一条 SQL 的旅程、B+ 树索引与失效、MVCC 与锁、redo/undo/binlog、EXPLAIN 优化、表设计与场景题 | 38 题 + 附录 A/B/C/D · 954 行 | 附录 D 有 4 张图：执行路径 / 两阶段提交 / MVCC / 加锁范围 |
 | [mongodb-interview.md](mongodb-interview.md) | 文档建模（内嵌 vs 引用）、索引与 ESR、聚合与 `$lookup`、事务与读写关注、副本集与分片、WiredTiger | 36 题 + 附录 A/B/C/D · 850 行 | 附「本仓库审计日志用例」（upsert 幂等） |
@@ -31,7 +32,7 @@
 
 | 时间 | 走法 | 目的 |
 | --- | --- | --- |
-| **20 分钟** | 十份文档的「附录 A 背诵卡」 | 临考最后一遍，只记结论和数字 |
+| **20 分钟** | 十一份文档的「附录 A 背诵卡」 | 临考最后一遍，只记结论和数字 |
 | **1 天** | 各篇正文 → 篇末「自测清单」 | 建立体系，卡住的地方回正文对应题号 |
 | **半天** | 附录 B（20 题模拟 + 追问链）→ 附录 C（3 分钟口述稿） | 练「被追问也不慌」和「能连续讲 3 分钟」 |
 
@@ -39,10 +40,10 @@
 
 | 方向 | 建议顺序 | 理由 |
 | --- | --- | --- |
-| **C# / .NET 后端** | csharp → dotnet → mysql → redis → mq | 语言与框架是主战场，存储与缓存是必问项 |
+| **C# / .NET 后端** | csharp → csharp-dsa → dotnet → mysql → redis → mq | 语言、算法、框架是主战场，存储与缓存是必问项 |
 | **中间件 / 基础架构** | os-network → linux-perf → redis → mq → distributed | 先懂 IO 与网络，才能解释 Redis/Kafka 为什么快 |
 | **架构 / 技术负责人** | ddd → distributed → mysql → mongodb → mq → redis | 边界、一致性与容量这三件事决定架构成败 |
-| **只求稳过** | 十份附录 A → 各篇附录 B 的 Q1~Q10 | 覆盖 80% 的高频问题 |
+| **只求稳过** | 十一份附录 A → 各篇附录 B 的 Q1~Q10 | 覆盖 80% 的高频问题 |
 
 ### 自测方法
 
@@ -60,6 +61,10 @@
 | 主题 | 首选 | 再看 |
 | --- | --- | --- |
 | 值类型 / struct / Equals | [csharp Q1~Q3](csharp-interview.md) | 附录 A 第 1~3 条 |
+| 集合选型与底层结构 | [dsa §一](csharp-dsa-interview.md) | [csharp Q19](csharp-interview.md)（集合场景） |
+| 手写数据结构（LRU/堆/并查集） | [dsa §二](csharp-dsa-interview.md) | 附录 A 第 10~16 条 |
+| 算法套路（双指针/二分/DP） | [dsa §三](csharp-dsa-interview.md) | 附录 B Q15~Q19 |
+| 刷题路线与资源 | [dsa 附录 E](csharp-dsa-interview.md) | — |
 | 泛型 / 委托 / 闭包 / yield | [csharp Q8~Q11](csharp-interview.md) | 附录 B Q2/Q3/Q4 |
 | GC 与内存泄漏 | [csharp §二](csharp-interview.md) | 附录 B Q5/Q6 |
 | 并发 / 异步 / 线程池 | [csharp §五 进阶](csharp-interview.md) | 附录 B Q7~Q14、附录 C 口述稿 |
