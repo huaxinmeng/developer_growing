@@ -1,6 +1,6 @@
 # 面试资料归档
 
-> 后端岗位（C# / .NET + 数据结构算法 + 设计模式 + MySQL/MongoDB + Redis + MQ + 系统/分布式/架构/DDD）面试资料集合。十五份文档统一采用同一套结构：**正文分章精讲 + 附录 A 背诵卡 + 附录 B 模拟面试 + 附录 C 口述稿**（多数另有附录 D 图）。
+> 后端岗位（C# / .NET + 数据结构算法 + 设计模式 + MySQL/MongoDB + Redis + MQ + 系统/分布式/架构/DDD）面试资料集合。十六份文档统一采用同一套结构：**正文分章精讲 + 附录 A 背诵卡 + 附录 B 模拟面试 + 附录 C 口述稿**（多数另有附录 D 图）。
 > 目标：既能当教材精读，也能在面试前 20 分钟快速过一遍。
 
 ## 文档清单
@@ -12,6 +12,7 @@
 | [aop-design-patterns-interview.md](aop-design-patterns-interview.md) | AOP（术语/五种通知/三种织入/Castle 四限制/中间件与拦截器分工）、SOLID、23 种模式与四组辨析、现代实践 | 32 题 + 附录 A/B/C/D · 879 行 | 附「本仓库模式与 AOP 对照表」 |
 | [dotnet-interview.md](dotnet-interview.md) | ASP.NET Core、EF Core（速览 5 题）、分布式与架构、电商场景题 | 33 题 + 附录 A/B/C · 785 行 | 工程落地最全，库存扣减五方案 |
 | [efcore-interview.md](efcore-interview.md) | DbContext 生命周期与池化、变更跟踪、映射（Owned/TPH/值转换器/并发令牌）、查询翻译与 N+1、写入事务、迁移与拦截器 | 30 题 + 附录 A/B/C/D · 820 行 | 附「本仓库 EF Core 实践」7 条可对照代码 |
+| [abp-interview.md](abp-interview.md) | 模块与生命周期、约定式 DI、分层与动态 API、UoW/审计/权限/多租户/事件总线、性能开关、版本冲突 | 29 题 + 附录 A/B/C/D · 731 行 | 全篇以本仓库真实代码为例（秒杀关审计、审计走 Kafka） |
 | [mysql-interview.md](mysql-interview.md) | 一条 SQL 的旅程、B+ 树索引与失效、MVCC 与锁、redo/undo/binlog、EXPLAIN 优化、表设计与场景题 | 38 题 + 附录 A/B/C/D · 954 行 | 附录 D 有 4 张图：执行路径 / 两阶段提交 / MVCC / 加锁范围 |
 | [mongodb-interview.md](mongodb-interview.md) | 文档建模（内嵌 vs 引用）、索引与 ESR、聚合与 `$lookup`、事务与读写关注、副本集与分片、WiredTiger | 36 题 + 附录 A/B/C/D · 850 行 | 附「本仓库审计日志用例」（upsert 幂等） |
 | [redis-interview.md](redis-interview.md) | 快的原因、编码、持久化、过期淘汰、缓存三坑、一致性、主从/哨兵/Cluster、分布式锁、大 key/热 key、场景设计 | 42 题 + 附录 A/B/C/D · 991 行 | 附录 D 有 4 张 Mermaid 时序图 |
@@ -36,7 +37,7 @@
 
 | 时间 | 走法 | 目的 |
 | --- | --- | --- |
-| **20 分钟** | 十五份文档的「附录 A 背诵卡」 | 临考最后一遍，只记结论和数字 |
+| **20 分钟** | 十六份文档的「附录 A 背诵卡」 | 临考最后一遍，只记结论和数字 |
 | **1 天** | 各篇正文 → 篇末「自测清单」 | 建立体系，卡住的地方回正文对应题号 |
 | **半天** | 附录 B（20 题模拟 + 追问链）→ 附录 C（3 分钟口述稿） | 练「被追问也不慌」和「能连续讲 3 分钟」 |
 
@@ -44,10 +45,10 @@
 
 | 方向 | 建议顺序 | 理由 |
 | --- | --- | --- |
-| **C# / .NET 后端** | csharp → csharp-dsa → aop-design-patterns → dotnet → efcore → mysql → redis → mq | 语言、算法、设计、框架是主战场 |
+| **C# / .NET 后端** | csharp → csharp-dsa → aop-design-patterns → dotnet → efcore → abp → mysql → redis → mq | 语言、算法、设计、框架是主战场 |
 | **中间件 / 基础架构** | os-network → linux-perf → redis → mq → distributed | 先懂 IO 与网络，才能解释 Redis/Kafka 为什么快 |
 | **架构 / 技术负责人** | cap → ddd → microservices → distributed → mysql → mongodb → mq → redis | 一致性、边界、容量这三件事决定架构成败 |
-| **只求稳过** | 十五份附录 A → 各篇附录 B 的 Q1~Q10 | 覆盖 80% 的高频问题 |
+| **只求稳过** | 十六份附录 A → 各篇附录 B 的 Q1~Q10 | 覆盖 80% 的高频问题 |
 
 ### 自测方法
 
@@ -75,6 +76,7 @@
 | AOP 与横切关注点 | [aop §一、§二](aop-design-patterns-interview.md) | [dotnet §一](dotnet-interview.md)（过滤器） | 
 | 设计模式与 SOLID | [aop §三~§六](aop-design-patterns-interview.md) | [ddd Q5](ddd-interview.md)（仓储/UoW 争议） |
 | ASP.NET Core / EF Core | [dotnet §一](dotnet-interview.md) | EF Core 深入看 [efcore-interview.md](efcore-interview.md) |
+| ABP 框架（模块 / UoW / 审计） | [abp-interview.md](abp-interview.md) | [dotnet §一](dotnet-interview.md)（中间件与过滤器）、[efcore §四](efcore-interview.md)（UoW 与事务） |
 | 索引设计与失效 | [mysql §二](mysql-interview.md) | 附录 A 第 4~12 条、附录 B Q2~Q6 |
 | 事务 / MVCC / 锁 | [mysql §三](mysql-interview.md) | 附录 D 图 3~4 |
 | 两阶段提交 / redo-undo-binlog | [mysql §四](mysql-interview.md) | 附录 D 图 2 |
