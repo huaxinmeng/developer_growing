@@ -1,6 +1,6 @@
 # 面试资料归档
 
-> 后端岗位（C# / .NET + MySQL + Redis + MQ + 系统/分布式）面试资料集合。七份文档统一采用同一套结构：**正文分章精讲 + 附录 A 背诵卡 + 附录 B 模拟面试 + 附录 C 口述稿**（MySQL / Redis / 分布式 / 系统网络 另有附录 D 图）。
+> 后端岗位（C# / .NET + MySQL + Redis + MQ + 系统/分布式/架构）面试资料集合。九份文档统一采用同一套结构：**正文分章精讲 + 附录 A 背诵卡 + 附录 B 模拟面试 + 附录 C 口述稿**（MySQL / Redis / 分布式 / 系统网络 / 排查 / DDD 另有附录 D 图）。
 > 目标：既能当教材精读，也能在面试前 20 分钟快速过一遍。
 
 ## 文档清单
@@ -14,6 +14,8 @@
 | [mq-interview.md](mq-interview.md) | RabbitMQ 模型与可靠性、集群与运维；Kafka 架构、生产者/消费者、ISR/HW、KRaft；选型对比 | 36 题 + 附录 A/B/C · 850 行 | 直达本仓库秒杀链路的真实实现 |
 | [distributed-interview.md](distributed-interview.md) | CAP/BASE、六种分布式事务、Raft 共识、注册中心/锁/ID、雪崩防护、多活与可观测性 | 27 题 + 附录 A/B/C/D · 674 行 | 附录 D 有 4 张图：2PC 阻塞、Raft 选举、本地消息表、熔断状态机 |
 | [os-network-interview.md](os-network-interview.md) | TCP 握手挥手与可靠传输、五种 IO 模型与 epoll、零拷贝、进程线程协程、排查调优 | 22 题 + 附录 A/B/C/D · 616 行 | 解释「为什么 Redis/Kafka 快」的底层依据 |
+| [linux-perf-interview.md](linux-perf-interview.md) | 分层排查方法论、CPU/内存/磁盘/网络指标解读、容器环境陷阱、P99 抖动定位 | 25 题 + 附录 A/B/C/D · 626 行 | 60 秒排查清单 + 「可证伪」记录模板 |
+| [ddd-microservices-interview.md](ddd-microservices-interview.md) | 限界上下文与聚合、拆分四维度与四误区、同步异步、CQRS/Saga、绞杀者与扩展-收缩 | 28 题 + 附录 A/B/C/D · 688 行 | 附「本仓库的 DDD 痕迹」可当项目案例 |
 
 配套设计文档仍在上一层 `docs/`：
 
@@ -28,7 +30,7 @@
 
 | 时间 | 走法 | 目的 |
 | --- | --- | --- |
-| **20 分钟** | 七份文档的「附录 A 背诵卡」 | 临考最后一遍，只记结论和数字 |
+| **20 分钟** | 九份文档的「附录 A 背诵卡」 | 临考最后一遍，只记结论和数字 |
 | **1 天** | 各篇正文 → 篇末「自测清单」 | 建立体系，卡住的地方回正文对应题号 |
 | **半天** | 附录 B（20 题模拟 + 追问链）→ 附录 C（3 分钟口述稿） | 练「被追问也不慌」和「能连续讲 3 分钟」 |
 
@@ -37,8 +39,9 @@
 | 方向 | 建议顺序 | 理由 |
 | --- | --- | --- |
 | **C# / .NET 后端** | csharp → dotnet → mysql → redis → mq | 语言与框架是主战场，存储与缓存是必问项 |
-| **中间件 / 基础架构** | os-network → redis → mq → distributed → mysql | 先懂 IO 与网络，才能解释 Redis/Kafka 为什么快 |
-| **只求稳过** | 七份附录 A → 各篇附录 B 的 Q1~Q10 | 覆盖 80% 的高频问题 |
+| **中间件 / 基础架构** | os-network → linux-perf → redis → mq → distributed | 先懂 IO 与网络，才能解释 Redis/Kafka 为什么快 |
+| **架构 / 技术负责人** | ddd → distributed → mysql → mq → redis | 边界、一致性与容量这三件事决定架构成败 |
+| **只求稳过** | 九份附录 A → 各篇附录 B 的 Q1~Q10 | 覆盖 80% 的高频问题 |
 
 ### 自测方法
 
@@ -77,6 +80,11 @@
 | 分布式 ID / 锁的选型 | [distributed Q18~Q19](distributed-interview.md) | [redis §六](redis-interview.md)（Redlock 争议） |
 | IO 模型 / epoll / 零拷贝 | [os §二](os-network-interview.md) | [redis Q1](redis-interview.md)、[mq Q17](mq-interview.md)（为什么快） |
 | TCP / 连接与端口排查 | [os §一、§四](os-network-interview.md) | 附录 A 第 1~4、18~19 条 |
+| 性能排查方法论 / 60 秒清单 | [linux §一](linux-perf-interview.md) | [os §四](os-network-interview.md)（指标解读） |
+| 容器排查（cgroup / throttling） | [linux Q23](linux-perf-interview.md) | os 附录 A 第 19 条 |
+| DDD 建模（限界上下文 / 聚合） | [ddd §一](ddd-microservices-interview.md) | [dotnet §四](dotnet-interview.md)（订单域落地） |
+| 微服务拆分与演进 | [ddd §二、§四](ddd-microservices-interview.md) | [distributed §四](distributed-interview.md) |
+| CQRS / 事件溯源 | [ddd Q18~Q19](ddd-microservices-interview.md) | [redis Q18](redis-interview.md)（缓存一致性） |
 | 库存扣减 / 超卖 | [dotnet §四](dotnet-interview.md) | [mysql Q36](mysql-interview.md)、[../inventory-deduction.md](../inventory-deduction.md) |
 | 秒杀方案 | [../seckill-1000qps.md](../seckill-1000qps.md) | redis 附录 A 第 35 条、mq Q18、dotnet Q20 |
 
