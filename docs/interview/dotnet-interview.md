@@ -782,8 +782,8 @@ static ListNode? Reverse(ListNode? head)
 > `/api/app/inventory/...`，提供 naive / atomic / optimistic / redis / idempotent 五种扣减方式
 > 和一个并发压测接口。配套 Vue 前端在 `t1_frame/frontend/inventory-web`
 > （商品商店 / 库存管理 / 订单管理 / 审计日志），支持下单、支付、库存扣减、11 套换肤与中英双语。
-> 另外实现了 Redis 分桶 + 批量落库的 1000 QPS 秒杀通道，见 `docs/seckill-1000qps.md`。
-> 运行说明与实测结果见 `docs/inventory-deduction.md`。
+> 另外实现了 Redis 分桶 + 批量落库的 1000 QPS 秒杀通道，见 [../seckill-1000qps.md](../seckill-1000qps.md)。
+> 运行说明与实测结果见 [../inventory-deduction.md](../inventory-deduction.md)。
 
 ### 1. 库存扣减：超卖是怎么产生的？
 

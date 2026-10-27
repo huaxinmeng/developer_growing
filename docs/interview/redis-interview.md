@@ -660,7 +660,7 @@ Stream 关键命令：`XADD` / `XREADGROUP GROUP g c COUNT 10 BLOCK 2000 STREAMS
 - `t1_frame/src/webapi/t1_frame.webapi.abp/HostWebHostModule.cs` —— `Redis:IsEnabled`、`AddStackExchangeRedisCache`
 - `t1_frame/src/webapi/t1_frame.webapi.abp/Controllers/SeckillController.cs` —— 1000 QPS 秒杀入口，只访问 Redis + 内存队列
 - `t1_frame/src/webapi/t1_frame.webapi.abp/Controllers/InventoryController.cs` —— `DeductWithRedisAsync`
-- 详细设计：`docs/seckill-1000qps.md`、`docs/inventory-deduction.md`
+- 详细设计：[../seckill-1000qps.md](../seckill-1000qps.md)、[../inventory-deduction.md](../inventory-deduction.md)
 
 ---
 
