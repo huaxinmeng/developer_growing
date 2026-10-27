@@ -107,6 +107,8 @@ builder.Services.AddAuthorization(o =>
 
 ## 二、EF Core
 
+> 这里只保留 5 道速览题；**完整版（30 题：跟踪原理、映射、N+1、并发、迁移、拦截器）见 [efcore-interview.md](efcore-interview.md)**。
+
 ### 8. `DbContext` 的生命周期？线程安全吗？
 
 Scoped（每请求一个）。**非线程安全**，不能并行使用同一实例；后台任务要新建 scope。
